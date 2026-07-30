@@ -1,0 +1,337 @@
+/* --- 个人信息视图核心样式 --- */
+.profile-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+}
+
+.profile-card-box {
+    background: #ffffff;
+    overflow: hidden;
+}
+
+/* ================= 移动端样式 (屏幕宽度小于 768px) ================= */
+@media (max-width: 767px) {
+    .profile-mask {
+        background: #f2f2f2;
+        display: block;
+    }
+
+    .profile-card-box {
+        width: 100%;
+        height: 100%;
+        background: #f2f2f2;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-mobile-header {
+        display: flex;
+        align-items: center;
+        height: 54px;
+        padding: 0 12px;
+        background: #f2f2f2;
+    }
+
+    .profile-back-btn {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+    }
+
+    .profile-main-content {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .profile-info-block {
+        background: #ffffff;
+        padding: 30px 24px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .profile-avatar-box {
+        width: 68px;
+        height: 68px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-right: 20px;
+        flex-shrink: 0;
+        background: #eaeaea;
+    }
+
+    .profile-avatar-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-text-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-name-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 2px;
+    }
+
+    .profile-nickname {
+        font-size: 22px;
+        font-weight: bold;
+        color: #191919;
+    }
+
+    .profile-gender-icon {
+        font-size: 16px;
+    }
+
+    .profile-uuid-row {
+        font-size: 14px;
+        color: #7f7f7f;
+        margin-top: 0px;
+    }
+
+    .profile-region-row {
+        font-size: 14px;
+        color: #7f7f7f;
+        margin-top: 2px;
+    }
+
+    .profile-divider {
+        height: 8px;
+        background: #f2f2f2;
+    }
+
+    .profile-menu-block {
+        background: #ffffff;
+    }
+
+    /* 移动端菜单单行：改用左对齐 */
+    .profile-menu-item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 16px 24px;
+        cursor: pointer;
+    }
+
+    .profile-menu-item:active {
+        background: #f5f5f5;
+    }
+
+    .menu-label {
+        font-size: 16px;
+        color: #191919;
+        flex-shrink: 0;
+    }
+
+    /* 移动端右侧内容区：撑满剩余空间 */
+    .menu-right {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        margin-left: 20px;
+        /* 文字与预览图间距 */
+    }
+
+    .moments-preview-imgs {
+        display: flex;
+        gap: 6px;
+    }
+
+    .moments-preview-imgs img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    /* 移动端右箭头：强行推至最右侧 */
+    .arrow-icon {
+        margin-left: auto;
+        fill: #b2b2b2;
+        flex-shrink: 0;
+    }
+
+    .profile-action-block {
+        margin-top: 0;
+        background: #ffffff;
+    }
+
+    .profile-send-msg-btn {
+        width: 100%;
+        background: #ffffff;
+        border: none;
+        padding: 16px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #576b95;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .profile-send-msg-btn:active {
+        background: #f5f5f5;
+    }
+}
+
+/* ================= 电脑端样式 (屏幕宽度不小于 768px) ================= */
+@media (min-width: 768px) {
+    .profile-mask {
+        background: transparent;
+    }
+
+    .profile-card-box {
+        position: absolute;
+        width: 290px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border: 1px solid #eaeaea;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-mobile-header {
+        display: none;
+    }
+
+    .profile-info-block {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+
+    .profile-avatar-box {
+        width: 54px;
+        height: 54px;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-right: 14px;
+        flex-shrink: 0;
+        background: #eaeaea;
+    }
+
+    .profile-avatar-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-text-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-name-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 2px;
+    }
+
+    .profile-nickname {
+        font-size: 18px;
+        font-weight: bold;
+        color: #191919;
+    }
+
+    .profile-gender-icon {
+        font-size: 14px;
+    }
+
+    .profile-uuid-row {
+        font-size: 12px;
+        color: #888888;
+        margin-top: 0px;
+    }
+
+    .profile-region-row {
+        font-size: 12px;
+        color: #888888;
+        margin-top: 2px;
+    }
+
+    .profile-divider {
+        height: 1px;
+        background: #f0f0f0;
+        margin: 10px 0;
+    }
+
+    /* 电脑端菜单单行：改用左对齐 */
+    .profile-menu-item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 4px 0;
+        cursor: pointer;
+    }
+
+    .menu-label {
+        font-size: 14px;
+        color: #191919;
+        flex-shrink: 0;
+    }
+
+    /* 电脑端右侧内容区：撑满剩余空间 */
+    .menu-right {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        margin-left: 16px;
+        /* 文字与右侧内容间距 */
+    }
+
+    /* 电脑端默认隐藏预览图 */
+    .moments-preview-imgs {
+        display: none;
+    }
+
+    /* 电脑端右箭头：在没有图片预览时，依靠 margin-left: auto 依然能强行推至最右侧 */
+    .arrow-icon {
+        margin-left: auto;
+        fill: #b2b2b2;
+        flex-shrink: 0;
+    }
+
+    .profile-action-block {
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .profile-send-msg-btn {
+        width: 100%;
+        background: transparent;
+        border: none;
+        color: #576b95;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 6px 0;
+    }
+
+    .profile-send-msg-btn:hover {
+        color: #3b5080;
+    }
+}

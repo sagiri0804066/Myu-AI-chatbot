@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Myu3.9</title>
+    <link rel="icon" href="icon/chat_favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/chat_style.css">
+    <link rel="stylesheet" href="css/chat_search.css">
+    <link rel="stylesheet" href="css/profile_container.css">
+</head>
+
+<body>
+
+    <div class="app-outer-container">
+        <nav class="main-nav">
+            <div class="nav-item" id="btn-contacts">
+                <svg viewBox="0 0 1026 1024" width="28" height="28">
+                    <path
+                        d="M28.159032 268.80868H191.9934a28.159032 28.159032 0 0 0 0-56.318064H28.159032a28.159032 28.159032 0 0 0 0 56.318064z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M0 487.681156m28.159032 0l163.834368 0q28.159032 0 28.159032 28.159032l0 0q0 28.159032-28.159032 28.159032l-163.834368 0q-28.159032 0-28.159032-28.159032l0 0q0-28.159032 28.159032-28.159032Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M220.152432 790.39075a28.159032 28.159032 0 0 0-28.159032-28.159032H28.159032a28.159032 28.159032 0 0 0 0 56.318064H191.9934a28.159032 28.159032 0 0 0 28.159032-28.159032zM712.935493 474.241618a145.275006 145.275006 0 0 0 37.118724-97.276656 150.39483 150.39483 0 0 0-302.069616 0 147.834918 147.834918 0 0 0 38.39868 97.276656 328.948692 328.948692 0 0 0-158.074567 251.511354 72.957492 72.957492 0 0 0 17.919384 58.237998 58.877976 58.877976 0 0 0 43.518504 20.479296h419.825569a60.157932 60.157932 0 0 0 44.158482-20.479296 74.877426 74.877426 0 0 0 17.279406-58.237998 327.028758 327.028758 0 0 0-158.074566-251.511354zM599.659387 291.20791a85.757052 85.757052 0 0 1 36.478746 163.19439l-36.478746 16.639428-35.838768-16.639428A86.39703 86.39703 0 0 1 511.982401 376.964962a85.757052 85.757052 0 0 1 87.676986-85.757052z m206.712894 447.9846H393.58647a12.79956 12.79956 0 0 1 0-7.679736A245.751552 245.751552 0 0 1 558.060817 512.00032l41.59857-10.879626L639.978001 512.00032a246.39153 246.39153 0 0 1 166.39428 218.232498 12.79956 12.79956 0 0 1 0 10.239648z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M914.528563 0.017919h-703.975801a110.076216 110.076216 0 0 0-111.99615 106.876327V192.01132h98.556612a47.99835 47.99835 0 0 1 47.99835 47.358372 50.558262 50.558262 0 0 1-14.079516 34.558812 47.99835 47.99835 0 0 1-33.918834 14.079516H98.556612v179.833818h97.276656a54.39813 54.39813 0 0 1 34.558812 14.079516 47.99835 47.99835 0 0 1-33.278856 81.917184H98.556612v176.633928h97.916634a47.99835 47.99835 0 1 1 0 95.9967H98.556612v79.357272A110.076216 110.076216 0 0 0 210.552762 1023.982721h703.975801A109.436238 109.436238 0 0 0 1023.964801 915.826438V106.894246A109.436238 109.436238 0 0 0 914.528563 0.017919zM959.967001 915.826438a46.078416 46.078416 0 0 1-47.99835 42.878527h-703.975801a46.078416 46.078416 0 0 1-47.99835-42.878527v-15.359472h33.918834a111.99615 111.99615 0 0 0 0-223.9923h-31.358922V627.19636h35.838768A111.99615 111.99615 0 0 0 308.469396 512.00032a109.436238 109.436238 0 0 0-33.278856-76.79736 117.115974 117.115974 0 0 0-79.99725-32.638878h-32.638878v-47.99835h34.558812A111.99615 111.99615 0 0 0 276.470496 320.00692a111.99615 111.99615 0 0 0-79.357272-191.9934h-34.558812v-21.119274A46.078416 46.078416 0 0 1 210.552762 64.015719h703.975801a46.078416 46.078416 0 0 1 47.99835 42.878527z"
+                        fill="currentColor"></path>
+                </svg>
+                <span class="nav-label">通讯录</span>
+            </div>
+            <div class="nav-item" id="btn-nav-moments">
+                <svg viewBox="0 0 1024 1024" width="28" height="28">
+                    <path
+                        d="M177.738667 652.949333A364.074667 364.074667 0 0 0 331.306667 826.517333v-310.826666L192.490667 645.152c-4.298667 4.010667-9.397333 6.613333-14.752 7.808z m-19.989334-62.922666l209.706667-195.562667H170.666667c-0.618667 0-1.237333-0.010667-1.845334-0.053333A362.186667 362.186667 0 0 0 149.333333 512c0 26.784 2.901333 52.906667 8.416 78.026667z m302.08-195.562667a32.064 32.064 0 0 1-5.152 6.186667l-62.112 57.909333c1.76 3.957333 2.730667 8.341333 2.730667 12.949333v79.541334c3.584 1.642667 6.912 3.978667 9.802667 7.008l67.573333 70.848h90.570667l68.298666-72.938667v-95.872l-68.181333-66.826667c-2.773333 0.778667-5.685333 1.194667-8.693333 1.194667h-94.837334zM395.232 855.466667A362.218667 362.218667 0 0 0 512 874.666667c32.768 0 64.522667-4.341333 94.72-12.490667l-211.413333-221.653333V853.333333c0 0.714667-0.032 1.418667-0.074667 2.133334z m275.466667-17.269334a364.266667 364.266667 0 0 0 155.690666-145.28H533.706667l131.946666 138.346667c2.026667 2.133333 3.712 4.469333 5.045334 6.933333z m184.693333-209.216A362.208 362.208 0 0 0 874.666667 512c0-36.661333-5.44-72.053333-15.552-105.408L650.912 628.906667H853.333333c0.693333 0 1.376 0.021333 2.058667 0.064zM197.962667 330.464h301.312l-139.733334-136.938667a31.978667 31.978667 0 0 1-5.898666-7.893333A364.266667 364.266667 0 0 0 197.973333 330.474667z m220.373333-168.917333l213.205333 208.938666v-195.2c0-1.92 0.170667-3.786667 0.490667-5.621333A362.112 362.112 0 0 0 512 149.333333c-32.384 0-63.786667 4.245333-93.653333 12.213334zM695.552 446.613333V487.637333l134.432-143.573333c0.746667-0.8 1.546667-1.557333 2.346667-2.261333a364.373333 364.373333 0 0 0-136.778667-142.666667v247.488zM512 938.666667C276.362667 938.666667 85.333333 747.637333 85.333333 512S276.362667 85.333333 512 85.333333s426.666667 191.029333 426.666667 426.666667-191.029333 426.666667-426.666667 426.666667z"
+                        fill="currentColor"></path>
+                </svg>
+                <span class="nav-label">朋友圈</span>
+            </div>
+            <div class="nav-item" id="btn-open-profile">
+                <svg viewBox="0 0 1024 1024" width="28" height="28">
+                    <path
+                        d="M956.837647 986.955294H67.162353v-156.732235C67.162353 652.107294 266.360471 542.117647 512 542.117647c245.639529 0 444.837647 111.073882 444.837647 288.105412v156.732235zM512 486.520471A222.388706 222.388706 0 1 1 512 41.682824a222.388706 222.388706 0 0 1 0 444.837647z"
+                        fill="currentColor"></path>
+                </svg>
+                <span class="nav-label">我的</span>
+            </div>
+            <div class="nav-item" id="btn-nav-settings-desktop">
+                <svg viewBox="0 0 1024 1024" width="28" height="28">
+                    <path
+                        d="M617.376 929.968c-8 17.648-25.152 29.136-44.096 29.136L451.2 960a48.336 48.336 0 0 1-44.16-28.576L370.72 854.4a331.568 331.568 0 0 1-42.992-21.76l-77.776 18.944a47.872 47.872 0 0 1-50.048-17.472L123.84 736.848c-11.68-15.44-14.032-36-5.696-53.2l37.28-76.752a471.776 471.776 0 0 1-9.392-43.792l-63.424-50.368a51.088 51.088 0 0 1-17.376-50.56l26.8-121.328c4.256-19.168 18.72-33.952 37.152-37.632l81.568-18.192a421.488 421.488 0 0 1 26.832-33.856l-1.28-81.92c-0.512-19.2 10.192-36.8 27.552-46.048l109.296-54.048a48.688 48.688 0 0 1 52.64 5.84l65.008 53.28a339.488 339.488 0 0 1 45.824 0.416l61.984-51.92a48.688 48.688 0 0 1 52.56-6.336l109.856 53.664a50.72 50.72 0 0 1 27.952 45.408l-0.416 85.6c9.168 10.528 18.048 22.08 26.048 33.84l78.24 16.432c18.688 3.728 33.552 18.608 37.76 37.584l28.128 120.96c4.208 19.008-2.24 38.48-16.976 50.608l-65.6 53.376c-2.832 16.624-5.6 29.472-9.28 41.728l36.752 72.704c8.448 17.44 6.704 37.984-4.8 53.168l-74.24 98.496c-11.728 15.44-30.928 22.752-49.424 18.512l-81.488-18.16a329.28 329.28 0 0 1-42.976 21.328l-33.312 74.288zM312.32 745.296c4-1.152 8.08-1.728 12.144-1.728a51.52 51.52 0 0 1 28.48 8.4 286.48 286.48 0 0 0 63.488 31.808c12.64 4.4 23.312 14.192 29.6 26.816l33.648 71.28 63.424-0.8 30.528-68.528c6.144-13.44 16.864-23.408 30.128-27.84a284.784 284.784 0 0 0 63.472-31.296 51.2 51.2 0 0 1 39.248-7.296l74.992 17.024 38.88-51.728-34.032-67.232a52 52 0 0 1-2.832-41.68c7.44-21.888 12.32-43.68 14.56-65.616 1.6-13.808 8.368-26.496 18.96-35.488l60.784-49.04-14.848-63.456-72.16-15.248a50.944 50.944 0 0 1-33.584-23.936c-12.4-20.064-26.08-38.016-40.992-53.344a54.336 54.336 0 0 1-14.912-37.184l0.448-78.832-57.536-28-57.12 48.032c-11.264 8.992-25.216 13.28-39.104 11.6a272.48 272.48 0 0 0-69.28-0.48 49.92 49.92 0 0 1-38.224-11.2l-60.16-49.808-57.12 28.8 1.312 75.712a54.08 54.08 0 0 1-15.552 38.24c-15.888 15.904-29.92 33.6-41.76 52.704a53.104 53.104 0 0 1-32.4 23.44L159.68 386.432l-14.048 63.936 58.48 46.304a52.4 52.4 0 0 1 19.472 36.624c2.336 23.44 7.008 46.144 14.08 67.84 4.368 13.328 3.392 27.824-2.72 40.448l-33.712 70.08 39.68 50.944 71.408-17.328h-0.016z m199.408-40.272c-104.4 0-188.96-86.48-188.96-193.12 0-106.592 84.56-193.072 188.96-193.072s188.96 86.48 188.96 193.088c0 106.624-84.56 193.104-188.96 193.104z m0-308.752c-62.24 0-112.848 51.904-112.848 115.648 0 63.76 50.608 115.68 112.848 115.68s112.848-51.92 112.848-115.68c0-63.744-50.624-115.648-112.848-115.648z"
+                        fill="currentColor"></path>
+                </svg>
+                <span class="nav-label">设置</span>
+            </div>
+        </nav>
+
+        <div class="app-wrapper">
+            <header>
+                <div class="h-side h-left"></div>
+                <div class="h-center">
+                    <div id="display-name" class="name">无网络</div>
+                    <div id="status-indicator" class="status">🔴离线</div>
+                </div>
+                <div class="h-side h-right">
+                    <div id="btn-nav-settings-mobile"
+                        style="cursor: pointer; padding: 4px; display: flex; align-items: center; color: #515151;">
+                        <svg viewBox="0 0 1024 1024" width="24" height="24">
+                            <path
+                                d="M617.376 929.968c-8 17.648-25.152 29.136-44.096 29.136L451.2 960a48.336 48.336 0 0 1-44.16-28.576L370.72 854.4a331.568 331.568 0 0 1-42.992-21.76l-77.776 18.944a47.872 47.872 0 0 1-50.048-17.472L123.84 736.848c-11.68-15.44-14.032-36-5.696-53.2l37.28-76.752a471.776 471.776 0 0 1-9.392-43.792l-63.424-50.368a51.088 51.088 0 0 1-17.376-50.56l26.8-121.328c4.256-19.168 18.72-33.952 37.152-37.632l81.568-18.192a421.488 421.488 0 0 1 26.832-33.856l-1.28-81.92c-0.512-19.2 10.192-36.8 27.552-46.048l109.296-54.048a48.688 48.688 0 0 1 52.64 5.84l65.008 53.28a339.488 339.488 0 0 1 45.824 0.416l61.984-51.92a48.688 48.688 0 0 1 52.56-6.336l109.856 53.664a50.72 50.72 0 0 1 27.952 45.408l-0.416 85.6c9.168 10.528 18.048 22.08 26.048 33.84l78.24 16.432c18.688 3.728 33.552 18.608 37.76 37.584l28.128 120.96c4.208 19.008-2.24 38.48-16.976 50.608l-65.6 53.376c-2.832 16.624-5.6 29.472-9.28 41.728l36.752 72.704c8.448 17.44 6.704 37.984-4.8 53.168l-74.24 98.496c-11.728 15.44-30.928 22.752-49.424 18.512l-81.488-18.16a329.28 329.28 0 0 1-42.976 21.328l-33.312 74.288zM312.32 745.296c4-1.152 8.08-1.728 12.144-1.728a51.52 51.52 0 0 1 28.48 8.4 286.48 286.48 0 0 0 63.488 31.808c12.64 4.4 23.312 14.192 29.6 26.816l33.648 71.28 63.424-0.8 30.528-68.528c6.144-13.44 16.864-23.408 30.128-27.84a284.784 284.784 0 0 0 63.472-31.296 51.2 51.2 0 0 1 39.248-7.296l74.992 17.024 38.88-51.728-34.032-67.232a52 52 0 0 1-2.832-41.68c7.44-21.888 12.32-43.68 14.56-65.616 1.6-13.808 8.368-26.496 18.96-35.488l60.784-49.04-14.848-63.456-72.16-15.248a50.944 50.944 0 0 1-33.584-23.936c-12.4-20.064-26.08-38.016-40.992-53.344a54.336 54.336 0 0 1-14.912-37.184l0.448-78.832-57.536-28-57.12 48.032c-11.264 8.992-25.216 13.28-39.104 11.6a272.48 272.48 0 0 0-69.28-0.48 49.92 49.92 0 0 1-38.224-11.2l-60.16-49.808-57.12 28.8 1.312 75.712a54.08 54.08 0 0 1-15.552 38.24c-15.888 15.904-29.92 33.6-41.76 52.704a53.104 53.104 0 0 1-32.4 23.44L159.68 386.432l-14.048 63.936 58.48 46.304a52.4 52.4 0 0 1 19.472 36.624c2.336 23.44 7.008 46.144 14.08 67.84 4.368 13.328 3.392 27.824-2.72 40.448l-33.712 70.08 39.68 50.944 71.408-17.328h-0.016z m199.408-40.272c-104.4 0-188.96-86.48-188.96-193.12 0-106.592 84.56-193.072 188.96-193.072s188.96 86.48 188.96 193.088c0 106.624-84.56 193.104-188.96 193.104z m0-308.752c-62.24 0-112.848 51.904-112.848 115.648 0 63.76 50.608 115.68 112.848 115.68s112.848-51.92 112.848-115.68c0-63.744-50.624-115.648-112.848-115.648z"
+                                fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </div>
+            </header>
+
+            <div id="net-err-out"
+                style="display:block; flex-shrink:0; background:#fff0f0; color:#fa5151; font-size:12px; text-align:center; padding:5px 0; border-bottom:1px solid #fde2e2;">
+                网络连接错误，请检查网络/服务器连接错误，错误码：<span id="net-err-code">连接中...</span>
+            </div>
+
+            <div id="chat-container">
+                <div id="chat-content"></div>
+            </div>
+
+            <div id="drag-handle" class="resizer"></div>
+
+            <div id="input-section" class="input-area">
+                <div id="mention-popover" class="mention-popover">
+                    <div id="mention-list"></div>
+                </div>
+
+                <div id="ui-normal" class="ui-mode">
+                    <div class="desktop-top-bar">
+                        <div id="btn-desktop-search" class="desktop-action-icon" title="查找聊天记录">
+                            <svg viewBox="0 0 1024 1024" width="22" height="22">
+                                <path
+                                    d="M512 457.031816A55.033029 55.033029 0 1 0 567.033029 512.064845 55.033029 55.033029 0 0 0 512 457.031816z m220.132117 0A55.033029 55.033029 0 1 0 786.738533 512.064845a55.033029 55.033029 0 0 0-55.033029-55.033029z m-439.837621 0A55.033029 55.033029 0 1 0 346.900913 512.064845a55.033029 55.033029 0 0 0-55.03303-55.033029z"
+                                    fill="#5E5C5C"></path>
+                                <path
+                                    d="M917.70861 637.062345a405.70861 405.70861 0 0 1-93.854778 127.983789A442.823909 442.823909 0 0 1 682.645052 853.354948a475.246469 475.246469 0 0 1-324.225598 7.252415 35.835461 35.835461 0 0 0-29.436272 2.986288L213.37116 929.718609l-18.344343-154.860384a35.835461 35.835461 0 0 0-10.238703-20.904019 389.923943 389.923943 0 0 1-115.18541-274.738533 378.832015 378.832015 0 0 1 34.12901-157.846673 405.70861 405.70861 0 0 1 93.854778-127.983789A442.823909 442.823909 0 0 1 341.354948 104.223172a474.393244 474.393244 0 0 1 343.849779 0 441.117458 441.117458 0 0 1 138.649105 87.882201 406.135223 406.135223 0 0 1 93.854778 127.983789 380.111852 380.111852 0 0 1 0 315.266733zM981.273892 291.932729a476.099694 476.099694 0 0 0-110.492671-152.300709 511.935155 511.935155 0 0 0-160.406348-102.387031 546.91739 546.91739 0 0 0-396.749746 0 511.935155 511.935155 0 0 0-162.539411 102.387031A478.232757 478.232757 0 0 0 42.726108 291.932729a451.782774 451.782774 0 0 0-42.661263 187.282944 461.168252 461.168252 0 0 0 127.983789 316.119958l23.037082 196.668422a36.262073 36.262073 0 0 0 35.835461 31.995947 36.262073 36.262073 0 0 0 17.91773-4.692739l148.461195-85.322526a547.344003 547.344003 0 0 0 358.354608-13.651604 511.935155 511.935155 0 0 0 162.539412-102.387031A477.806145 477.806145 0 0 0 981.273892 666.925229a453.915837 453.915837 0 0 0 0-374.9925z"
+                                    fill="#5E5C5C"></path>
+                            </svg>
+                        </div>
+                        <div id="btn-desktop-edit" class="desktop-action-icon" title="删除消息记录">
+                            <svg viewBox="0 0 1024 1024" width="22" height="22">
+                                <path
+                                    d="M810.666667 128H618.666667l-21.333334-42.666667H426.666667l-21.333334 42.666667H213.333333a42.666667 42.666667 0 0 0 0 85.333333h597.333334a42.666667 42.666667 0 0 0 0-85.333333zM256 810.666667a85.333333 85.333333 0 0 0 85.333333 85.333333h341.333334a85.333333 85.333333 0 0 0 85.333333-85.333333V256H256v554.666667z"
+                                    fill="#5E5C5C"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div id="mobile-plus-btn" class="plus-btn-circle"></div>
+                        <div id="msg-input" contenteditable="true" placeholder="输入消息..."></div>
+                        <button id="btn-send" class="send-btn">发送</button>
+                    </div>
+                </div>
+
+                <div id="ui-edit" class="ui-mode" style="display: none;">
+                    <div class="edit-confirm-bar">
+                        <button id="btn-edit-cancel" class="cancel-btn">取消</button>
+                        <button id="btn-edit-confirm" class="delete-confirm-btn">删除选中</button>
+                    </div>
+                </div>
+
+                <div id="mobile-plus-menu" class="plus-menu">
+                    <div id="btn-mobile-search">查找聊天记录</div>
+                    <div id="btn-mobile-edit" style="color: #fa5151;">删除消息记录</div>
+                </div>
+            </div>
+
+            <div id="ui-edit" class="ui-mode" style="display: none;">
+                <div class="edit-confirm-bar">
+                    <button id="btn-edit-cancel" class="cancel-btn">取消</button>
+                    <button id="btn-edit-confirm" class="delete-confirm-btn">删除选中</button>
+                </div>
+            </div>
+
+            <div id="mobile-plus-menu" class="plus-menu">
+                <div id="btn-mobile-search">查找聊天记录</div>
+                <div id="btn-mobile-edit" style="color: #fa5151;">删除消息记录</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="modal-overlay" class="modal-mask">
+        <div class="modal-box">
+            <div class="modal-header">
+                <span>我的个人信息</span>
+                <div id="btn-modal-close" class="close-x">×</div>
+            </div>
+            <div class="modal-body-scroll">
+                <div class="avatar-upload-container">
+                    <div class="avatar-uploader" id="avatar-preview-target">
+                        <div class="plus-overlay">+</div>
+                        <input type="file" id="avatar-input" accept="image/*" hidden>
+                    </div>
+                    <p class="upload-tip">点击更换头像</p>
+                </div>
+                <div class="form-item"><label>昵称</label><input type="text" id="edit-nickname"></div>
+                <div class="form-item"><label>性别</label><select id="edit-gender">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                        <option value="其他">其他</option>
+                    </select></div>
+                <div class="form-item"><label>生日</label><input type="date" id="edit-birthday"></div>
+                <div class="form-item"><label>学校/公司</label><input type="text" id="edit-org"></div>
+                <div class="form-item"><label>爱好</label><input type="text" id="edit-hobbies"></div>
+            </div>
+            <div class="modal-footer"><button id="btn-modal-save" class="save-btn">保存</button></div>
+        </div>
+    </div>
+
+    <div id="contacts-modal" class="modal-mask">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div id="btn-contacts-close" class="modal-header-svg-btn">
+                    <svg viewBox="0 0 1024 1024" width="18" height="18" fill="currentColor">
+                        <path
+                            d="M512 456.128L805.824 162.304c15.424-15.424 40.448-15.424 55.872 0s15.424 40.448 0 55.872L567.872 512l293.824 293.824c15.424 15.424 15.424 40.448 0 55.872s-40.448 15.424-55.872 0L512 567.872l-293.824 293.824c-15.424 15.424-40.448 15.424-55.872 0s-15.424-40.448 0-55.872L456.128 512 162.304 208.176c-15.424-15.424-15.424-40.448 0-55.872s40.448-15.424 55.872 0L512 456.128z">
+                        </path>
+                    </svg>
+                </div>
+                <span>联系人</span>
+                <div id="btn-contact-add" class="modal-header-svg-btn">
+                    <svg viewBox="0 0 1024 1024" width="18" height="18" fill="currentColor">
+                        <path
+                            d="M512 80c-238.6 0-432 193.4-432 432s193.4 432 432 432 432-193.4 432-432S750.6 80 512 80z m192 456H536v168c0 13.3-10.7 24-24 24s-24-10.7-24-24v-168H320c-13.3 0-24-10.7-24-24s10.7-24 24-24h168V320c0-13.3 10.7-24 24-24s24 10.7 24 24v168h168c13.3 0 24 10.7 24 24s-10.7 24-24 24z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div id="contact-list" class="contact-list-container"></div>
+        </div>
+    </div>
+
+    <div id="contact-edit-modal" class="modal-mask">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div id="btn-contact-edit-back" class="modal-header-svg-btn">
+                    <svg viewBox="0 0 1024 1024" width="18" height="18" fill="currentColor">
+                        <path
+                            d="M778.071602 73.246008L309.350396 512.080157l468.721206 438.706154a43.454628 43.454628 0 0 1 0 60.606087 41.342695 41.342695 0 0 1-59.262129 0L219.945218 544.463135A43.358631 43.358631 0 0 1 208.105592 512.016159a42.750651 42.750651 0 0 1 11.903624-32.510973L718.809473 12.543924a41.342695 41.342695 0 0 1 59.262129 0 43.582624 43.582624 0 0 1 0 60.702084z">
+                        </path>
+                    </svg>
+                </div>
+                <span id="contact-edit-title">新增/编辑联系人</span>
+                <div style="width: 18px;"></div>
+            </div>
+            <div class="modal-body-scroll flex-body">
+                <div class="form-item" id="type-select-container"><label>联系人类型</label><select id="contact-edit-type">
+                        <option value="P">单聊</option>
+                        <option value="G">群聊</option>
+                    </select></div>
+                <div class="avatar-upload-container">
+                    <div class="avatar-uploader" id="contact-avatar-preview-target">
+                        <div class="plus-overlay">+</div>
+                        <input type="file" id="contact-avatar-input" accept="image/*" hidden>
+                    </div>
+                    <p class="upload-tip">点击更换头像</p>
+                </div>
+                <div class="form-item"><label id="lbl-contact-nickname">昵称</label><input type="text"
+                        id="contact-edit-nickname"></div>
+                <div id="group-members-area" class="form-item form-item-full" style="display: none;">
+                    <label id="lbl-contact-members">群成员</label>
+                    <details id="members-details"
+                        style="border: 1px solid #eee; border-radius: 6px; background: #fff; padding: 4px; width: 100%;">
+                        <summary
+                            style="cursor: pointer; padding: 8px 10px; font-size: 14px; font-weight: bold; color: #333; outline: none; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+                            <span>选择群成员 <span id="selected-members-count"
+                                    style="font-weight: normal; font-size: 12px; color: #888;">(已选 0 人)</span></span>
+                        </summary>
+                        <div id="group-members-checklist"
+                            style="max-height: 180px; overflow-y: auto; padding: 10px 4px; border-top: 1px solid #f0f0f0; background: #fafafa; display: flex; flex-direction: column; gap: 8px;">
+                        </div>
+                    </details>
+                </div>
+                <div class="form-item form-item-full"><label id="lbl-contact-details">详细信息</label><textarea
+                        id="contact-edit-details" placeholder="请输入联系人详细信息..."></textarea></div>
+            </div>
+            <div class="modal-footer"><button id="btn-contact-save" class="save-btn">保存</button></div>
+        </div>
+    </div>
+
+    <div class="modal-mask" id="search-history-mask">
+        <div class="search-modal-box">
+            <div class="modal-header">
+                <span>查找聊天记录</span>
+                <span class="close-x" id="close-search-history">&times;</span>
+            </div>
+
+            <div class="history-search-wrapper">
+                <input type="text" class="history-search-input" id="history-keyword-input" placeholder="搜索关键词...">
+                <span class="history-search-icon" id="history-search-btn">🔍</span>
+            </div>
+
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <span class="calendar-arrow" id="prev-month-btn">&lt;</span>
+                    <span class="calendar-title" id="calendar-month-year-title"></span>
+                    <span class="calendar-arrow" id="next-month-btn">&gt;</span>
+                </div>
+                <div class="calendar-weekdays">
+                    <div>日</div>
+                    <div>一</div>
+                    <div>二</div>
+                    <div>三</div>
+                    <div>四</div>
+                    <div>五</div>
+                    <div>六</div>
+                </div>
+                <div class="calendar-days-grid" id="calendar-days-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-container" class="profile-mask" style="display: none;">
+        <div id="profile-card" class="profile-card-box">
+            <div class="profile-mobile-header">
+                <div id="btn-profile-back" class="profile-back-btn">
+                    <svg t="1782900353214" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="6612" width="24" height="24">
+                        <path
+                            d="M795.527529 921.178353a60.235294 60.235294 0 0 1-85.172705 85.172706l-451.764706-451.764706a60.235294 60.235294 0 0 1 0-85.172706l451.764706-451.764706a60.235294 60.235294 0 0 1 85.172705 85.172706L386.349176 512l409.178353 409.178353z"
+                            fill="#000000" p-id="6613"></path>
+                    </svg>
+                </div>
+                <span></span>
+            </div>
+
+            <div class="profile-main-content">
+                <div class="profile-info-block">
+                    <div class="profile-avatar-box">
+                        <img id="profile-avatar" src="" alt="头像">
+                    </div>
+                    <div class="profile-text-info">
+                        <div class="profile-name-row">
+                            <span id="profile-nickname" class="profile-nickname">昵称</span>
+                            <span id="profile-gender-icon" class="profile-gender-icon"></span>
+                        </div>
+                        <div id="profile-uuid-row" class="profile-uuid-row">
+                            uuid：<span id="profile-uuid"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-divider"></div>
+
+                <div class="profile-menu-block">
+                    <div class="profile-menu-item" id="btn-profile-moments">
+                        <span class="menu-label">朋友圈</span>
+                        <div class="menu-right">
+                            <div class="moments-preview-imgs" id="profile-moments-preview"></div>
+                            <svg class="arrow-icon" viewBox="0 0 1024 1024" width="16" height="16">
+                                <path
+                                    d="M340.835 158.12l411.3 322.25c18.57 14.54 18.57 43.14 0 57.68l-411.3 322.25c-23.75 18.6-58.11 1.76-58.11-28.84V186.96c0-30.6 34.36-47.44 58.11-28.84z"
+                                    fill="#b2b2b2"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-divider"></div>
+
+                <div class="profile-action-block">
+                    <button id="btn-profile-send-msg" class="profile-send-msg-btn">
+                        <svg viewBox="0 0 1024 1024" width="18" height="18" fill="currentColor"
+                            style="vertical-align: middle; margin-right: 4px;">
+                            <path
+                                d="M166.62069 1014.289655l4.193103-62.675862s7.503448-113.213793 10.593104-160C66.206897 709.958621 0.441379 586.813793 0.441379 450.868966 0.441379 207.889655 230.4 10.151724 513.103448 10.151724 794.703448 10.151724 1024 207.889655 1024 450.868966S793.37931 891.586207 510.013793 891.586207c-35.089655 0-72.606897-3.310345-107.034483-9.268966L166.62069 1014.289655z m346.482758-935.944827c-244.965517 0-444.248276 167.062069-444.248276 372.524138 0 118.731034 60.689655 226.206897 166.4 294.841379l16.772414 10.813793-1.324138 19.862069c-0.441379 6.17931-4.413793 67.751724-7.724138 116.965517l148.524138-82.97931 12.358621 2.427586c33.324138 6.62069 71.062069 10.372414 106.151724 10.372414 245.848276 0 445.793103-167.062069 445.793104-372.524138 0-205.02069-198.62069-372.303448-442.703449-372.303448z"
+                                fill="#3b5080" p-id="9239"></path>
+                            <path
+                                d="M284.910345 544.662069c-37.737931 0-68.193103-30.455172-68.193104-68.193103 0-37.737931 30.455172-68.193103 68.193104-68.193104 37.737931 0 68.193103 30.455172 68.193103 68.193104 0 37.517241-30.675862 68.193103-68.193103 68.193103M512.22069 544.662069c-37.737931 0-68.193103-30.455172-68.193104-68.193103 0-37.737931 30.455172-68.193103 68.193104-68.193104 37.737931 0 68.193103 30.455172 68.193103 68.193104 0 37.517241-30.455172 68.193103-68.193103 68.193103M739.751724 544.662069c-37.737931 0-68.193103-30.455172-68.193103-68.193103 0-37.737931 30.455172-68.193103 68.193103-68.193104 37.737931 0 68.193103 30.455172 68.193104 68.193104 0 37.517241-30.455172 68.193103-68.193104 68.193103"
+                                fill="#3b5080" p-id="9240">
+                            </path>
+                        </svg>
+                        <span>发消息</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/chat_script.js"></script>
+    <script src="js/chat_search.js"></script>
+    <script src="js/profile_container.js"></script>
+    <script>
+        document.getElementById('btn-nav-moments').addEventListener('click', function () {
+            const url = window.location.href.replace('/chat', '/moments');
+            window.open(url, '_blank');
+        });
+        function openSettings() {
+            const url = window.location.href.replace('/chat', '/settings');
+            window.open(url, '_blank');
+        }
+
+        const btnSettingsDesktop = document.getElementById('btn-nav-settings-desktop');
+        const btnSettingsMobile = document.getElementById('btn-nav-settings-mobile');
+
+        if (btnSettingsDesktop) {
+            btnSettingsDesktop.addEventListener('click', openSettings);
+        }
+
+        if (btnSettingsMobile) {
+            btnSettingsMobile.addEventListener('click', openSettings);
+        }
+    </script>
+</body>
+
+</html>

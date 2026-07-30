@@ -1,0 +1,14 @@
+data/
+data/*
+
+脚本/
+*.sh
+*.bat
+*.ps1
+
+__pycache__/
+*.pyc
+.env
+.idea/
+.vscode/
+.DS_Store

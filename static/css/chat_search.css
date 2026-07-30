@@ -1,0 +1,154 @@
+/* 搜索遮罩与弹窗 */
+#search-history-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.search-modal-box {
+    background: #ffffff;
+    width: 90%;
+    max-width: 340px;
+    height: 520px;
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 顶部搜索框区域 */
+.history-search-wrapper {
+    position: relative;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+.history-search-input {
+    width: 100%;
+    padding: 10px 12px;
+    padding-right: 40px;
+    border: 1px solid var(--border-color);
+    background: #f7f7f7;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: background 0.2s, border-color 0.2s;
+}
+.history-search-input:focus {
+    background: #ffffff;
+    border-color: var(--wechat-green);
+}
+.history-search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-grey);
+    font-size: 16px;
+    user-select: none;
+}
+
+/* 自定义日历区域 */
+.calendar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* 日历头部（切换月份） */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+.calendar-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333333;
+}
+.calendar-arrow {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    user-select: none;
+    color: #555555;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+.calendar-arrow:hover {
+    background: #f0f0f0;
+}
+
+/* 星期头部 */
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-grey);
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+/* 日历日期网格 */
+.calendar-days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 8px;
+    flex: 1;
+    align-content: start;
+}
+
+/* 日期单元格：默认置灰（代表无聊天记录，且不可点） */
+.calendar-day-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    position: relative;
+    border-radius: 50%;
+    user-select: none;
+    color: #cccccc; 
+    pointer-events: none; 
+}
+
+/* 微信逻辑：有聊天记录的日期亮起 */
+.calendar-day-cell.has-history {
+    color: #333333;
+    font-weight: 500;
+    cursor: pointer;
+    pointer-events: auto; /* 恢复可点击 */
+}
+.calendar-day-cell.has-history:hover {
+    background: #ececec;
+}
+
+/* 当前选中的日期（微信绿圆圈） */
+.calendar-day-cell.is-selected {
+    background: var(--wechat-green) !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+/* 月初空格占位 */
+.calendar-day-empty {
+    aspect-ratio: 1;
+}
