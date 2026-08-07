@@ -276,7 +276,7 @@ class MomentsGeneratorEngine:
             char_card = speaker_info.get("card_data", "")
 
             # 提取对话上下文作为灵感
-            latest_msgs = chat_db.get_latest_messages(20, sender_uuid)
+            latest_msgs = chat_db.get_latest_messages(10, sender_uuid)
             context_summary = ""
             if latest_msgs:
                 context_summary = "\n".join([f"{m['role']}: {m['text']}" for m in latest_msgs])

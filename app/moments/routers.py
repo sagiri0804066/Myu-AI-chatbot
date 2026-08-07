@@ -109,6 +109,8 @@ def toggle_praise(uuid: str, sender_uuid: Optional[str] = "user"):
     # 直接将前端传入的 sender_uuid 传给底层
     success = moments_db.toggle_praise(uuid, sender_uuid)
     if success:
+        # 记录最后互动时间
+        moments_db.update_last_access_time()
         return {"status": "success"}
     raise HTTPException(status_code=404, detail="Moment not found")
 
@@ -136,6 +138,8 @@ async def submit_comment(
 
     if success:
         print("[Debug] 评论成功写入数据库。")
+        # 记录最后互动时间
+        moments_db.update_last_access_time()
 
         # 2. 判断是否为真人评论。如果是，才触发 AI 反应
         if req.sender_uuid == "user" or not req.sender_uuid:

@@ -25,7 +25,8 @@ class ContextBuilder:
     def __init__(self, vdb: InMemoryVectorDB):
         self.vdb = vdb
 
-    def build_prompt(self, current_input: str, init_data: dict, speaker_info: dict, auto: bool = False) -> List[dict]:
+    def build_prompt(self, current_input: str, init_data: dict, speaker_info: dict, auto: bool = False,
+                     merged_count: int = 10) -> List[dict]:
         user_info = init_data.get("user", {})
         user_nickname = user_info.get("nickname", "用户")
         current_contact = init_data.get("contact", {})
@@ -43,12 +44,14 @@ class ContextBuilder:
         moments_context = self._assemble_moments() or []
 
         # 短期记忆
-        stm_msgs = chat_db.get_latest_messages()
+        print(merged_count)
+        stm_msgs = chat_db.get_latest_messages(limit=merged_count)
         nickname_map = {c['uuid']: c['nickname'] for c in init_data.get("contacts", [])}
         stm_list = self._assemble_stm(stm_msgs, is_group, user_nickname, nickname_map, speaker_nickname)
 
         # 组装基础消息
-        messages = ltm_list + moments_context + stm_list
+        messages = stm_list + moments_context + ltm_list
+        print("messages List Counts:", messages)
         final_prompt = llm_client.call_st_preset(messages, current_input, char_card_formatted)
 
         # 注入系统追加指令
@@ -167,6 +170,9 @@ class MoYunxiEngine:
         self.processor = ResponseProcessor()
         self.active_task = None
         self._background_tasks = set()
+        self.merged_count = 30
+        self.min_merged_count = 30
+        self.max_merged_count = 50
 
     def interrupt(self):
         if self.active_task and not self.active_task.done():
@@ -267,8 +273,9 @@ class MoYunxiEngine:
             speaker_nickname = speaker_info.get("nickname", "AI")
 
             # 2. 组装 Prompt
-            final_prompt = self.context_builder.build_prompt(current_input, init_data, speaker_info, auto)
-
+            final_prompt = self.context_builder.build_prompt(current_input, init_data, speaker_info, auto,
+                                                             self.merged_count)
+            print(final_prompt)
             # 3. LLM 请求
             full_reply = await self._request_reply(final_prompt)
             if not full_reply:
@@ -285,6 +292,12 @@ class MoYunxiEngine:
                                                                        target_speaker_uuid)
                 if processed:
                     last_valid_block = processed
+
+            # 动态上下文窗口
+            if self.merged_count >= self.max_merged_count:
+                self.merged_count = self.min_merged_count
+            else:
+                self.merged_count += 2
 
             # 私聊完成，后台异步触发总结
             if not is_group:

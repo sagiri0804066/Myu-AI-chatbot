@@ -3,7 +3,7 @@ data/*
 
 脚本/
 *.sh
-*.bat
+*.batgit push -u origin main
 *.ps1
 
 __pycache__/

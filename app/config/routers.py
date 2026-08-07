@@ -18,7 +18,7 @@ def get_safe_path(filename: str):
     # 额外检查：防止直接传入绝对路径或非法空字符
     if not safe_name or safe_name in [".", ".."]:
         raise HTTPException(status_code=400, detail="非法的文件名")
-    return os.path.join(DATA_DIR, safe_name)
+    return os.path.join(PRESET_DIR, safe_name)
 
 
 # 定义预设文件存储目录
