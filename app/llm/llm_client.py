@@ -94,7 +94,7 @@ class LLMClient:
                 yield "status", "status_offline"
                 return
 
-        if temperature:
+        if temperature is not None:
             self.params["temperature"] = temperature
             print(f"[自定义温度]{temperature}")
 
@@ -127,6 +127,7 @@ class LLMClient:
                         messages=prompt_list,
                         **self.params
                     )
+                    print(response.model_dump_json(indent=2))
 
                     yield "status", "status_ok"
 
@@ -146,13 +147,13 @@ class LLMClient:
                 else:
                     retry_count += 1
             except openai.APIConnectionError:
-                print("⚠️ 网络连接失败，重试中...")
+                print("网络连接失败，重试中...")
                 retry_count += 1
             except asyncio.CancelledError:
-                print("🛑 任务被取消")
+                print("任务被取消")
                 raise
             except Exception as e:
-                print(f"❓ 未知错误: {e}")
+                print(f"未知错误: {e}")
                 retry_count += 1
 
         yield "status", "status_offline"
@@ -172,9 +173,10 @@ class LLMClient:
                 messages=prompt_list,
                 **params
             )
+            print(response.model_dump_json(indent=2))
             return response.choices[0].message.content or ""
         except Exception as e:
-            print(f"❌ 失败: {e}")
+            print(f"失败: {e}")
             return ""
 
     async def describe_image(self, img_path: str) -> str:
@@ -228,16 +230,16 @@ class LLMClient:
 
                     if isinstance(tags_list, list) and len(tags_list) >= 3:
                         formatted_tags = "，".join(tags_list)
-                        print(f"✅ {formatted_tags}")
+                        print(f"{formatted_tags}")
                         return formatted_tags
                     else:
-                        print(f"⚠️ 返回的标签数量不足: {raw_text}")
+                        print(f"返回的标签数量不足: {raw_text}")
                         return ""
                 except json.JSONDecodeError:
-                    print(f"⚠️ 无法解析为 JSON: {raw_text}")
+                    print(f"无法解析为 JSON: {raw_text}")
                     return ""
             else:
-                print(f"⚠️ 未产生有效回复")
+                print(f"未产生有效回复")
                 return ""
 
         except Exception as e:

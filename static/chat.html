@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Myu3.9</title>
+    <title>Myu4.0</title>
     <link rel="icon" href="icon/chat_favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/chat_style.css">
     <link rel="stylesheet" href="css/chat_search.css">
@@ -106,11 +106,22 @@
                             </svg>
                         </div>
                         <div id="btn-desktop-edit" class="desktop-action-icon" title="删除消息记录">
-                            <svg viewBox="0 0 1024 1024" width="22" height="22">
+                            <svg viewBox="0 0 1024 1024" width="25" height="25">
                                 <path
                                     d="M810.666667 128H618.666667l-21.333334-42.666667H426.666667l-21.333334 42.666667H213.333333a42.666667 42.666667 0 0 0 0 85.333333h597.333334a42.666667 42.666667 0 0 0 0-85.333333zM256 810.666667a85.333333 85.333333 0 0 0 85.333333 85.333333h341.333334a85.333333 85.333333 0 0 0 85.333333-85.333333V256H256v554.666667z"
                                     fill="#5E5C5C"></path>
                             </svg>
+                        </div>
+                        <div id="btn-theme-toggle" class="desktop-action-icon" title="切换主题">
+                            <svg id="theme-icon-dark" viewBox="0 0 1024 1024" width="22" height="22">
+                                <path
+                                    d="M512 0C239.796455 0 19.208649 229.222834 19.208649 511.994281s220.622117 512.005719 492.791351 512.005719S1004.791351 794.765729 1004.791351 511.994281 784.157797 0 512 0z m0 919.247384c-222.680799 0-403.192923-185.613081-403.192923-414.721544S289.319201 89.804296 512 89.804296 915.192923 275.486 915.192923 504.52584 734.680799 919.247384 512 919.247384z"
+                                    fill="#5E5C5C"></path>
+                                <path
+                                    d="M490.944255 148.899914c186.939788 0 338.538863 155.876559 338.538863 348.157484s-151.54189 348.168921-338.538863 348.168921"
+                                    fill="#5E5C5C"></path>
+                            </svg>
+
                         </div>
                     </div>
                     <div class="input-row">
@@ -128,8 +139,15 @@
                 </div>
 
                 <div id="mobile-plus-menu" class="plus-menu">
-                    <div id="btn-mobile-search">查找聊天记录</div>
-                    <div id="btn-mobile-edit" style="color: #fa5151;">删除消息记录</div>
+                    <div id="btn-mobile-theme-toggle">
+                        深色模式
+                    </div>
+                    <div id="btn-mobile-search">
+                        查找聊天记录
+                    </div>
+                    <div id="btn-mobile-edit" style="color:#fa5151;">
+                        删除消息记录
+                    </div>
                 </div>
             </div>
 
@@ -138,11 +156,6 @@
                     <button id="btn-edit-cancel" class="cancel-btn">取消</button>
                     <button id="btn-edit-confirm" class="delete-confirm-btn">删除选中</button>
                 </div>
-            </div>
-
-            <div id="mobile-plus-menu" class="plus-menu">
-                <div id="btn-mobile-search">查找聊天记录</div>
-                <div id="btn-mobile-edit" style="color: #fa5151;">删除消息记录</div>
             </div>
         </div>
     </div>

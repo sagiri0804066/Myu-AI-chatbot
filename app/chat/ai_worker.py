@@ -18,15 +18,13 @@ from ..character.profile_manager import profile_manager
 from ..utils.utils import should_trigger_proactive
 
 
-# =====================================================================
 # 1. 上下文与 Prompt 组装器
-# =====================================================================
 class ContextBuilder:
     def __init__(self, vdb: InMemoryVectorDB):
         self.vdb = vdb
 
-    def build_prompt(self, current_input: str, init_data: dict, speaker_info: dict, auto: bool = False,
-                     merged_count: int = 10) -> List[dict]:
+    def build_prompt(self, current_input: str, init_data: dict, speaker_info: dict, auto: Optional[bool] = None,
+                     merged_count: int = 30) -> List[dict]:
         user_info = init_data.get("user", {})
         user_nickname = user_info.get("nickname", "用户")
         current_contact = init_data.get("contact", {})
@@ -112,9 +110,7 @@ class ContextBuilder:
         return stm_list
 
 
-# =====================================================================
 # 2. 回复清洗、落库器
-# =====================================================================
 class ResponseProcessor:
     @staticmethod
     def clean_reply(full_reply: str) -> str:
@@ -158,9 +154,7 @@ class ResponseProcessor:
         return block
 
 
-# =====================================================================
 # 3. 核心调度引擎
-# =====================================================================
 class MoYunxiEngine:
     def __init__(self):
         self.vdb = InMemoryVectorDB()
@@ -254,7 +248,7 @@ class MoYunxiEngine:
         # 私聊 1 轮，群聊最多 1~12 轮
         chain_limit = 1 if not is_group else random.randint(1, 12)
 
-        while current_round < chain_limit:
+        while current_round <= chain_limit:
             user_nickname = init_data.get("user", {}).get("nickname", "用户")
             all_contacts = init_data.get("contacts", [])
             nickname_map = {c['uuid']: c['nickname'] for c in all_contacts}

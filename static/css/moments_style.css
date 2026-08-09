@@ -695,3 +695,275 @@ body {
     overflow: hidden;
     background-color: #f3f3f5;
 }
+
+/* =========================
+   朋友圈主题适配
+   必须放在原 CSS 最底部
+   ========================= */
+
+:root {
+    --wechat-bg: #ededed;
+    --wechat-blue: #576b95;
+    --wechat-grey: #7f7f7f;
+    --wechat-light-grey: #f7f7f7;
+    --wechat-comment-bg: #f3f3f5;
+
+    --moments-surface: #ffffff;
+    --moments-input: #ffffff;
+    --moments-hover: #f0f0f0;
+    --moments-text: #191919;
+    --moments-secondary: #7f7f7f;
+    --moments-border: #e0e0e0;
+    --moments-divider: #eeeeee;
+    --moments-shadow: rgba(0, 0, 0, 0.15);
+
+    --scrollbar-track: #eeeeee;
+    --scrollbar-thumb: #c2c2c2;
+    --scrollbar-thumb-hover: #a8a8a8;
+}
+
+body.dark-mode {
+    --wechat-bg: #121212;
+    --wechat-blue: #7184A8;
+    --wechat-grey: #989898;
+    --wechat-light-grey: #202020;
+    --wechat-comment-bg: #202020;
+
+    --moments-surface: #181818;
+    --moments-input: #202020;
+    --moments-hover: #303030;
+    --moments-text: #d8d8d8;
+    --moments-secondary: #989898;
+    --moments-border: #363636;
+    --moments-divider: #2d2d2d;
+    --moments-shadow: rgba(0, 0, 0, 0.7);
+
+    --scrollbar-track: #181818;
+    --scrollbar-thumb: #454545;
+    --scrollbar-thumb-hover: #5a5a5a;
+}
+
+/* 页面整体 */
+html,
+body {
+    background-color: var(--wechat-bg);
+    color: var(--moments-text);
+}
+
+.app-container {
+    background-color: var(--moments-surface);
+    box-shadow: 0 0 10px var(--moments-shadow);
+}
+
+/* 顶部导航 */
+.nav-bar {
+    background-color: var(--wechat-light-grey);
+    border-bottom-color: var(--moments-border);
+}
+
+.nav-title,
+.post-icon {
+    color: var(--moments-text);
+}
+
+/* 朋友圈内容 */
+.moments-scroll {
+    background-color: var(--moments-surface);
+}
+
+.moment-item {
+    border-bottom-color: var(--moments-divider);
+}
+
+.moment-text,
+.notif-text {
+    color: var(--moments-text);
+}
+
+.moment-time,
+.notif-time,
+.no-more-divider {
+    color: var(--moments-secondary);
+}
+
+/* 头像占位背景 */
+.user-avatar,
+.sender-avatar,
+.notif-avatar {
+    background-color: var(--wechat-light-grey);
+}
+
+/* 互动区域 */
+.interactions-box {
+    background-color: var(--wechat-comment-bg);
+}
+
+.interactions-box::before {
+    border-color: transparent transparent var(--wechat-comment-bg);
+}
+
+.praise-list {
+    color: var(--wechat-blue);
+    border-bottom-color: var(--moments-border);
+}
+
+.comment-item {
+    color: var(--moments-text);
+}
+
+.comment-user,
+.sender-name,
+.notif-user,
+.notif-text .reply-target-name {
+    color: var(--wechat-blue);
+}
+
+/* 操作按钮 */
+.delete-btn:hover,
+.action-menu-btn:hover {
+    background-color: var(--moments-hover);
+}
+
+.action-menu-btn {
+    background-color: var(--wechat-light-grey);
+    color: var(--wechat-blue);
+}
+
+/* 操作菜单 */
+.action-popup {
+    background-color: #414141;
+    color: #ffffff;
+}
+
+/* 发布动态弹窗 */
+.modal-overlay {
+    background-color: var(--moments-surface);
+}
+
+.modal-header {
+    background-color: var(--wechat-light-grey);
+    border-bottom-color: var(--moments-divider);
+}
+
+.modal-cancel,
+.modal-title {
+    color: var(--moments-text);
+}
+
+.modal-body textarea {
+    background-color: var(--moments-surface);
+    color: var(--moments-text);
+}
+
+.modal-body textarea::placeholder,
+.comment-input-bar input::placeholder {
+    color: var(--moments-secondary);
+}
+
+/* 上传图片按钮 */
+.upload-btn-placeholder {
+    background-color: #858585;
+}
+
+.upload-btn-placeholder .plus-icon {
+    color: #191919;
+}
+
+/* 评论输入框 */
+.comment-input-bar {
+    background-color: var(--wechat-light-grey);
+    border-top-color: var(--moments-border);
+}
+
+.comment-input-bar input {
+    background-color: var(--moments-input);
+    color: var(--moments-text);
+    border-color: var(--moments-border);
+}
+
+/* 暂无更多 */
+.no-more-divider::before,
+.no-more-divider::after {
+    background-color: var(--moments-divider);
+}
+
+/* 消息通知弹窗 */
+.notif-modal-overlay .modal-header {
+    background-color: var(--wechat-light-grey);
+    border-bottom-color: var(--moments-divider);
+}
+
+.notif-modal-overlay .modal-title {
+    color: var(--moments-text);
+}
+
+.notif-list-body {
+    background-color: var(--moments-surface);
+}
+
+.notif-item {
+    border-bottom-color: var(--moments-divider);
+}
+
+.notif-item:active {
+    background-color: var(--moments-hover);
+}
+
+.notif-target-preview {
+    background-color: var(--wechat-light-grey);
+}
+
+.notif-target-preview.text-only-preview {
+    color: var(--moments-secondary);
+    background-color: var(--wechat-comment-bg);
+}
+
+/* =========================
+   滚动条主题适配
+   ========================= */
+
+/* Chrome、Edge、Safari */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.moments-scroll::-webkit-scrollbar,
+.modal-body::-webkit-scrollbar,
+.notif-list-body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+.moments-scroll::-webkit-scrollbar-track,
+.modal-body::-webkit-scrollbar-track,
+.notif-list-body::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+.moments-scroll::-webkit-scrollbar-thumb,
+.modal-body::-webkit-scrollbar-thumb,
+.notif-list-body::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 4px;
+    border: 2px solid var(--scrollbar-track);
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+.moments-scroll::-webkit-scrollbar-thumb:hover,
+.modal-body::-webkit-scrollbar-thumb:hover,
+.notif-list-body::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+}
+
+/* Firefox */
+html,
+body,
+.moments-scroll,
+.modal-body,
+.notif-list-body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}

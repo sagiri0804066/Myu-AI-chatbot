@@ -1,33 +1,4 @@
-import sys
 import os
-import ctypes
-
-# ==================== Windows 打包环境 核心 DLL 进程注入 ====================
-if hasattr(sys, 'frozen'):
-    # 把系统最新运行库注入进程内存中
-    for dll_name in ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll"]:
-        system32_dll = os.path.join("C:\\", "Windows", "System32", dll_name)
-        if os.path.exists(system32_dll):
-            try:
-                ctypes.CDLL(system32_dll)
-            except Exception:
-                pass
-
-    # 注册安全 DLL 目录检索
-    base_dir = os.path.dirname(sys.executable)
-    _internal_dir = os.path.join(base_dir, "_internal")
-    capi_dir = os.path.join(_internal_dir, "onnxruntime", "capi")
-
-    if hasattr(os, 'add_dll_directory'):
-        for path in [capi_dir, _internal_dir, base_dir]:
-            if os.path.exists(path):
-                try:
-                    os.add_dll_directory(path)
-                except Exception:
-                    pass
-    os.environ["PATH"] = capi_dir + os.pathsep + _internal_dir + os.pathsep + os.environ.get("PATH", "")
-# =================================================================================
-
 import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI

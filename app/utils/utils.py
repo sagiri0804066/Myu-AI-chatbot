@@ -67,10 +67,10 @@ def ST_preset(messages, newest, default_data, char_data):
     prompt_list = replace_tag_with_list(prompt_list, "charDescription", character)
     prompt_list = replace_tag_with_list(prompt_list, "chatHistory", messages)
 
-    # 替换最新的用户输入 {{lastmessage}}
+    # 替换最新的用户输入
     for prompt in prompt_list:
-        if isinstance(prompt, dict) and "{{lastmessage}}" in prompt.get("content", ""):
-            prompt["content"] = prompt["content"].replace("{{lastmessage}}", newest)
+        if isinstance(prompt, dict) and "{{lastUserMessage}}" in prompt.get("content", ""):
+            prompt["content"] = prompt["content"].replace("{{lastUserMessage}}", newest)
 
     # 合并相邻的同角色（role）消息
     merged_prompt_list = []

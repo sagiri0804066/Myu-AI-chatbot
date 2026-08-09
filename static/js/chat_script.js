@@ -1078,12 +1078,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="contact-actions">
                         <div class="contact-action-btn chat-btn" data-uuid="${contact.uuid}">
                             <svg t="1779562001970" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10935" width="18" height="18">
-                                <path d="M930.503111 1019.448889a43.804444 43.804444 0 0 1-22.528-6.257778l-190.236444-113.749333A576.540444 576.540444 0 0 1 512 936.618667c-282.311111 0-512-198.343111-512-442.140445C0 250.680889 229.688889 52.337778 512 52.337778s512 198.343111 512 442.140444c0 107.576889-44.145778 209.294222-125.041778 289.649778l72.334222 173.368889c7.395556 17.749333 2.673778 38.286222-11.690666 50.944-8.248889 7.281778-18.631111 11.008-29.098667 11.008z" fill="#000000"></path>
+                                <path d="M930.503111 1019.448889a43.804444 43.804444 0 0 1-22.528-6.257778l-190.236444-113.749333A576.540444 576.540444 0 0 1 512 936.618667c-282.311111 0-512-198.343111-512-442.140445C0 250.680889 229.688889 52.337778 512 52.337778s512 198.343111 512 442.140444c0 107.576889-44.145778 209.294222-125.041778 289.649778l72.334222 173.368889c7.395556 17.749333 2.673778 38.286222-11.690666 50.944-8.248889 7.281778-18.631111 11.008-29.098667 11.008z" fill="currentColor"></path>
                             </svg>
                         </div>
                         <div class="contact-action-btn edit-btn" data-uuid="${contact.uuid}">
                             <svg t="1779558880431" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7697" width="18" height="18">
-                                <path d="M550.4 292.48l180.992 180.992-422.4 422.4H128v-181.034667l422.4-422.4z m60.330667-60.373333l90.496-90.496a42.666667 42.666667 0 0 1 60.330666 0l120.704 120.661333a42.666667 42.666667 0 0 1 0 60.373333l-90.538666 90.496-180.992-181.034666z" fill="#000000"></path>
+                                <path d="M550.4 292.48l180.992 180.992-422.4 422.4H128v-181.034667l422.4-422.4z m60.330667-60.373333l90.496-90.496a42.666667 42.666667 0 0 1 60.330666 0l120.704 120.661333a42.666667 42.666667 0 0 1 0 60.373333l-90.538666 90.496-180.992-181.034666z" fill="currentColor"></path>
                             </svg>
                         </div>
                         <div class="contact-action-btn delete-btn" data-uuid="${contact.uuid}">
@@ -1349,6 +1349,129 @@ document.addEventListener('DOMContentLoaded', () => {
             isLoadingHistory = false;
         }
     };
+/* =========================
+   深色 / 浅色主题管理
+   ========================= */
 
+    const THEME_STORAGE_KEY = 'chat-theme-mode';
+    const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    /**
+     * 应用实际主题
+     * @param {'light'|'dark'} theme
+     */
+    function applyTheme(theme) {
+        const isDark = theme === 'dark';
+
+        document.body.classList.toggle('dark-mode', isDark);
+        document.documentElement.dataset.theme = theme;
+
+        const desktopButton = document.getElementById('btn-theme-toggle');
+        const mobileButton = document.getElementById('btn-mobile-theme-toggle');
+
+        if (desktopButton) {
+            desktopButton.title = isDark ? '切换到浅色模式' : '切换到深色模式';
+            desktopButton.setAttribute('aria-label', desktopButton.title);
+        }
+
+        if (mobileButton) {
+            mobileButton.textContent = isDark ? '浅色模式' : '深色模式';
+        }
+    }
+
+    /**
+     * 获取当前实际显示的主题
+     * @returns {'light'|'dark'}
+     */
+    function getCurrentTheme() {
+        return document.body.classList.contains('dark-mode')
+            ? 'dark'
+            : 'light';
+    }
+
+    /**
+     * 跟随系统主题。
+     * 调用该函数后，系统主题发生变化时页面会自动切换。
+     */
+    function followSystemTheme() {
+        localStorage.setItem(THEME_STORAGE_KEY, 'system');
+        applyTheme(systemThemeQuery.matches ? 'dark' : 'light');
+    }
+
+    /**
+     * 手动切换深色/浅色主题。
+     * 手动切换后不再跟随系统，直到再次调用 followSystemTheme()。
+     */
+    function toggleTheme() {
+        const nextTheme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
+
+        localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+        applyTheme(nextTheme);
+    }
+
+    /**
+     * 设置指定主题模式
+     * @param {'system'|'light'|'dark'} mode
+     */
+    function setThemeMode(mode) {
+        if (mode === 'system') {
+            followSystemTheme();
+            return;
+        }
+
+        if (mode !== 'light' && mode !== 'dark') {
+            console.warn('无效的主题模式：', mode);
+            return;
+        }
+
+        localStorage.setItem(THEME_STORAGE_KEY, mode);
+        applyTheme(mode);
+    }
+
+    /**
+     * 初始化主题
+     */
+    function initTheme() {
+        const savedMode = localStorage.getItem(THEME_STORAGE_KEY) || 'system';
+
+        if (savedMode === 'light' || savedMode === 'dark') {
+            applyTheme(savedMode);
+        } else {
+            followSystemTheme();
+        }
+    }
+
+    /**
+     * 监听系统主题变化。
+     * 只有当前模式为 system 时才自动切换。
+     */
+    function handleSystemThemeChange(event) {
+        const currentMode =
+            localStorage.getItem(THEME_STORAGE_KEY) || 'system';
+
+        if (currentMode === 'system') {
+            applyTheme(event.matches ? 'dark' : 'light');
+        }
+    }
+
+    if (typeof systemThemeQuery.addEventListener === 'function') {
+        systemThemeQuery.addEventListener('change', handleSystemThemeChange);
+    } else {
+        // 兼容旧版 Safari
+        systemThemeQuery.addListener(handleSystemThemeChange);
+    }
+
+    /* 绑定桌面端和移动端切换按钮 */
+    document
+        .getElementById('btn-theme-toggle')
+        ?.addEventListener('click', toggleTheme);
+
+    document
+        .getElementById('btn-mobile-theme-toggle')
+        ?.addEventListener('click', toggleTheme);
+
+
+    /* 初始化 */
+    initTheme();
     initChat();
 });

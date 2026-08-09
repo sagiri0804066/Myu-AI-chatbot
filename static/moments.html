@@ -48,7 +48,8 @@
                     <textarea id="postText" placeholder="这一刻的想法..."></textarea>
                     <div class="appendix-upload-section">
                         <div class="image-preview-grid" id="postImagePreviews">
-                            <div class="upload-btn-placeholder" onclick="document.getElementById('postFileInput').click()">
+                            <div class="upload-btn-placeholder"
+                                onclick="document.getElementById('postFileInput').click()">
                                 <span class="plus-icon">+</span>
                             </div>
                         </div>
@@ -61,7 +62,8 @@
         <div class="modal-overlay notif-modal-overlay" id="notifModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="modal-cancel" onclick="closeNotifModal()"><i class="fa-solid fa-chevron-left"></i> 返回</span>
+                    <span class="modal-cancel" onclick="closeNotifModal()"><i class="fa-solid fa-chevron-left"></i>
+                        返回</span>
                     <span class="modal-title">消息</span>
                 </div>
                 <div class="notif-list-body" id="notifList"></div>
@@ -77,5 +79,14 @@
 
     <script src="js/moments_script.js"></script>
 </body>
+<script>
+    const savedTheme = localStorage.getItem('chat-theme-mode');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const isDark = savedTheme === 'dark' ||
+        (savedTheme !== 'light' && systemPrefersDark);
+
+    document.body.classList.toggle('dark-mode', isDark);
+</script>
 
 </html>

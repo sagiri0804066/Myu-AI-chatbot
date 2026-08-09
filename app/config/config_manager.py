@@ -4,8 +4,9 @@ import logging
 
 
 class ConfigManager:
-    def __init__(self, config_path="config.yaml"):
+    def __init__(self, config_path="config.yaml", prompts_path="prompts.yaml"):
         self.config_path = config_path
+        self.prompts_path = prompts_path
         self.prompts = {}
         self.server_config = {}
         self.load()
@@ -15,12 +16,17 @@ class ConfigManager:
         if not os.path.exists(self.config_path):
             logging.error(f"[ConfigManager] 找不到配置文件: {self.config_path}")
             return
-
+        if not os.path.exists(self.prompts_path):
+            logging.error(f"[ConfigManager] 找不到配置文件: {self.prompts_path}")
+            return
         try:
             with open(self.config_path, "r", encoding="utf-8") as f:
                 config_data = yaml.safe_load(f)
                 if config_data:
                     self.server_config = config_data.get("server", {})
+            with open(self.prompts_path, "r", encoding="utf-8") as f:
+                prompts_data = yaml.safe_load(f)
+                if prompts_data:
                     self.prompts = config_data.get("prompts", {})
                     logging.info(f"[ConfigManager] 成功加载 {len(self.prompts)} 条提示词。")
         except Exception as e:
