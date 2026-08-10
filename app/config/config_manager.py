@@ -27,7 +27,7 @@ class ConfigManager:
             with open(self.prompts_path, "r", encoding="utf-8") as f:
                 prompts_data = yaml.safe_load(f)
                 if prompts_data:
-                    self.prompts = config_data.get("prompts", {})
+                    self.prompts = prompts_data.get("prompts", {})
                     logging.info(f"[ConfigManager] 成功加载 {len(self.prompts)} 条提示词。")
         except Exception as e:
             logging.error(f"[ConfigManager] 解析 YAML 失败: {e}")
