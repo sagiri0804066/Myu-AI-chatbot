@@ -604,7 +604,7 @@ class MomentsGeneratorEngine:
                 action_type = winner["type"]
                 target = winner["target"]
 
-                temp_id = f"c_{len(planned_comments) + 1}"
+                temp_id = f"temp_id_{len(planned_comments) + 1}"
 
                 planned_comments.append({
                     "temp_id": temp_id,
