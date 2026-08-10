@@ -189,6 +189,9 @@ prompts:
         "keywords": ["关键词1", "关键词2"] // 提取 5~10 个具体的实体关键词（如特定人物、地点、事物、品牌等，不要使用抽象形容词）
     }
 
+    【user的资料】
+    {user_data}
+    
     【你的人设】
     {char_data}
     
@@ -225,6 +228,8 @@ prompts:
             }}
         ]
     }}
+    【user的资料】
+    {user_data}
     
     【你的人设】
     {char_data}

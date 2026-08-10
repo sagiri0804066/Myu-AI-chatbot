@@ -41,6 +41,11 @@ class SummaryPipeline:
                         logger.info("[Summary] 未获取到活跃联系人 UUID，总结终止。")
                         break
 
+                    # 加载用户资料
+                    init_data = chat_db.get_init_data()
+                    user_info = init_data.get("user", {})
+                    u_header = f'nickname: "{user_info.get("name", "user")}", org: "{user_info.get("org", "")}", gender: "{user_info.get("gender", "")}", birthday: "{user_info.get("birthday", "")}", hobbies: "{user_info.get("hobbies", "")}"'
+
                     # 加载角色卡
                     char_data = chat_db.get_contact_info_by_uuid(first_contact_uuid)
                     char_card = char_data.get("card_data", "")
@@ -155,7 +160,7 @@ class SummaryPipeline:
                         sender = "用户" if turn["role"] == "user" else "智能体"
                         dialogue_log += f"[{turn['time']}] {sender}: {turn['text']}\n"
 
-                    final_prompt = PROMPT_SUMMARY_TEMPLATE.replace("{char_data}", char_card).replace("{dialogue_log}", dialogue_log)
+                    final_prompt = PROMPT_SUMMARY_TEMPLATE.replace("{user_data}", u_header).replace("{char_data}", char_card).replace("{dialogue_log}", dialogue_log)
                     prompt_list = [{"role": "user", "content": final_prompt}]
 
                     logger.info(
@@ -204,7 +209,8 @@ class SummaryPipeline:
                         factual_reconcile_prompt_template = config_manager.get("factual_reconcile_prompt")
 
                         if factual_reconcile_prompt_template:
-                            reconcile_prompt = factual_reconcile_prompt_template.replace(
+                            reconcile_prompt = factual_reconcile_prompt_template.replace("{user_data}", u_header
+                            ).replace(
                                 "{char_data}", char_card
                             ).replace(
                                 "{old_facts_json}", json.dumps(old_facts, ensure_ascii=False)
