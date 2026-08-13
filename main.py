@@ -34,12 +34,21 @@ async def lifespan(app: FastAPI):
     moments_engine = MomentsGeneratorEngine()
     app.state.moments_engine = moments_engine
 
+    await engine_instance.scan_wakeup_tasks()
+
     task = asyncio.create_task(engine_instance.auto_message_loop())
     moments_task = asyncio.create_task(start_moments_daemon())
+
     yield
+
     task.cancel()
     moments_task.cancel()
+
+    for background_task in list(engine_instance._background_tasks):
+        background_task.cancel()
+
     print("[系统] 后台任务已关闭")
+
 
 
 app = FastAPI(lifespan=lifespan)

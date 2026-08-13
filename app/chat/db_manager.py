@@ -8,6 +8,8 @@ import re
 import shutil
 import base64
 import glob
+import time
+from datetime import datetime
 from contextlib import contextmanager
 from typing import Optional
 
@@ -19,16 +21,17 @@ class DBManager:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     DATA_DIR = os.path.join(BASE_DIR, "data")  # 指定 data 文件夹
     CONTACTS_DIR = os.path.join(DATA_DIR, "contacts")
-    CHAR_DIR = os.path.join(DATA_DIR, "character")
+    ACTIVE_DIR = os.path.join(DATA_DIR, "activeDB")
     PROFILES_DIR = os.path.join(DATA_DIR, "profiles")
 
     os.makedirs(DATA_DIR, exist_ok=True)
     os.makedirs(CONTACTS_DIR, exist_ok=True)
-    os.makedirs(CHAR_DIR, exist_ok=True)
+    os.makedirs(ACTIVE_DIR, exist_ok=True)
     os.makedirs(PROFILES_DIR, exist_ok=True)
 
-    _char_db_path = os.path.join(CHAR_DIR, "char_data.db")
+    _char_db_path = os.path.join(ACTIVE_DIR, "char_data.db")
     _profiles_db_path = os.path.join(PROFILES_DIR, "profiles_data.db")
+    _wakeup_tasks_db_path = os.path.join(ACTIVE_DIR, "wakeup_tasks.db")
 
     @staticmethod
     @contextmanager
@@ -58,6 +61,11 @@ class DBManager:
     def _get_profiles_conn():
         """获取全局公共配置数据库的连接上下文"""
         return DBManager._get_conn(DBManager._profiles_db_path)
+
+    @staticmethod
+    def _get_wakeup_tasks_conn():
+        """获取主动唤醒任务数据库连接上下文"""
+        return DBManager._get_conn(DBManager._wakeup_tasks_db_path)
 
     @staticmethod
     def _is_safe_uuid(uuid_str: str) -> bool:
@@ -170,6 +178,31 @@ class DBManager:
                 conn.execute("INSERT OR IGNORE INTO profiles (type, json_data) VALUES ('config', ?)", (default_config,))
         except sqlite3.Error as e:
             logging.error(f"配置库初始化失败: {e}")
+
+        # 3. 主动唤醒任务库初始化
+        try:
+            with DBManager._get_wakeup_tasks_conn() as conn:
+                conn.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS wakeup_tasks (
+                        owner_uuid TEXT NOT NULL,
+                        task_id TEXT NOT NULL,
+                        wakeup_time TEXT NOT NULL,
+                        remark TEXT NOT NULL,
+                        created_at INTEGER NOT NULL,
+                        PRIMARY KEY (owner_uuid, task_id),
+                        UNIQUE (owner_uuid, wakeup_time, remark)
+                    )
+                    """
+                )
+                conn.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS idx_wakeup_tasks_time
+                    ON wakeup_tasks (wakeup_time)
+                    """
+                )
+        except sqlite3.Error as e:
+            logging.error(f"主动唤醒任务库初始化失败: {e}")
 
     @staticmethod
     def get_init_data():
@@ -945,6 +978,75 @@ class DBManager:
                 logging.info(f"Successfully executed {len(operations)} semantic memory operations.")
         except sqlite3.Error as e:
             logging.error(f"execute_semantic_memory_operations Error: {e}")
+
+    # ==========================================
+    # 主动唤醒专用方法
+    # ==========================================
+    @staticmethod
+    def save_wakeup_task(owner_uuid: str, wakeup_time: str, remark: str):
+        if not DBManager._is_safe_uuid(owner_uuid):
+            return None
+
+        task = {
+            "owner_uuid": owner_uuid,
+            "task_id": str(time.time_ns()),
+            "wakeup_time": wakeup_time,
+            "remark": remark,
+            "created_at": int(time.time() * 1000)
+        }
+
+        try:
+            with DBManager._get_wakeup_tasks_conn() as conn:
+                cursor = conn.execute(
+                    """
+                    INSERT OR IGNORE INTO wakeup_tasks
+                    (owner_uuid, task_id, wakeup_time, remark, created_at)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                    tuple(task.values())
+                )
+                return task if cursor.rowcount else None
+        except sqlite3.Error as e:
+            logging.error(f"save_wakeup_task Error: {e}")
+            return None
+
+    @staticmethod
+    def get_wakeup_tasks(owner_uuid: Optional[str] = None):
+        try:
+            with DBManager._get_wakeup_tasks_conn() as conn:
+                if owner_uuid:
+                    cursor = conn.execute(
+                        """
+                        SELECT owner_uuid, task_id, wakeup_time, remark, created_at
+                        FROM wakeup_tasks
+                        WHERE owner_uuid = ?
+                        ORDER BY wakeup_time ASC
+                        """,
+                        (owner_uuid,)
+                    )
+                else:
+                    cursor = conn.execute(
+                        """
+                        SELECT owner_uuid, task_id, wakeup_time, remark, created_at
+                        FROM wakeup_tasks
+                        ORDER BY wakeup_time ASC
+                        """
+                    )
+                return [dict(row) for row in cursor.fetchall()]
+        except sqlite3.Error as e:
+            logging.error(f"get_wakeup_tasks Error: {e}")
+            return []
+
+    @staticmethod
+    def delete_wakeup_task(owner_uuid: str, task_id: str):
+        try:
+            with DBManager._get_wakeup_tasks_conn() as conn:
+                conn.execute(
+                    "DELETE FROM wakeup_tasks WHERE owner_uuid = ? AND task_id = ?",
+                    (owner_uuid, task_id)
+                )
+        except sqlite3.Error as e:
+            logging.error(f"delete_wakeup_task Error: {e}")
 
 
 chat_db = DBManager()

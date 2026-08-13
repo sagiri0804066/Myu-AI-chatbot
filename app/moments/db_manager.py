@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class DBManager:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     DATA_DIR = os.path.join(BASE_DIR, "data")  # 指定 data 文件夹
-    CHAR_DIR = os.path.join(DATA_DIR, "character")
+    ACTIVE_DIR = os.path.join(DATA_DIR, "activeDB")
     MOMENTS_DIR = os.path.join(DATA_DIR, "moments")
     LIB_DIR = os.path.join(DATA_DIR, "lib")
     CONTACTS_DIR = os.path.join(DATA_DIR, "contacts")
@@ -27,9 +27,9 @@ class DBManager:
     os.makedirs(MOMENTS_DIR, exist_ok=True)
     os.makedirs(CONTACTS_DIR, exist_ok=True)
     os.makedirs(PROFILES_DIR, exist_ok=True)
-    os.makedirs(CHAR_DIR, exist_ok=True)
+    os.makedirs(ACTIVE_DIR, exist_ok=True)
 
-    _char_db_path = os.path.join(CHAR_DIR, "char_data.db")
+    _char_db_path = os.path.join(ACTIVE_DIR, "char_data.db")
     _moments_db_path = os.path.join(MOMENTS_DIR, "moments_data.db")
     _profiles_db_path = os.path.join(PROFILES_DIR, "profiles_data.db")
 

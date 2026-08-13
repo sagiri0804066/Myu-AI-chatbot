@@ -3,8 +3,8 @@ import asyncio
 import json
 import re
 import time
+from datetime import datetime
 import random
-from os.path import join
 from typing import Optional, List
 
 from .buffer_heap import heap
@@ -25,7 +25,7 @@ class ContextBuilder:
         self.vdb = vdb
 
     def build_prompt(self, current_input: str, init_data: dict, speaker_info: dict, auto: Optional[bool] = None,
-                     merged_count: int = 30) -> List[dict]:
+                     merged_count: int = 30, wakeup_remark: Optional[str] = None) -> List[dict]:
         user_info = init_data.get("user", {})
         user_nickname = user_info.get("nickname", "用户")
         current_contact = init_data.get("contact", {})
@@ -48,28 +48,47 @@ class ContextBuilder:
         stm_list = self._assemble_stm(stm_msgs, is_group, user_nickname, nickname_map, speaker_nickname)
 
         # 组装基础消息
-        if auto:
+        if auto or wakeup_remark:
             decision_stm = chat_db.get_latest_messages(limit=10)
             decision_history_lines = [
                 f"[{m['time']}][{user_nickname if m['role'] == 'user' else speaker_nickname}]: {m['text']}"
                 for m in decision_stm
             ]
             messages = ltm_list + moments_context
-            auto_message = config_manager.get("auto_message")
-            messages.append({"role": "system",
-                             "content": auto_message.format(
-                                 nickname=speaker_nickname,
-                                 char_data=char_card,
-                                 user_nickname=user_nickname,
-                                 user_data=u_header,
-                                 current_time=get_current_time_str(),
-                                 chat_history=decision_history_lines,
-                             )
-                             })
+
+            template_name = "wakeup_message" if wakeup_remark else "auto_message"
+            template = config_manager.get(template_name)
+
+            messages.append({
+                "role": "system",
+                "content": template.format(
+                    nickname=speaker_nickname,
+                    char_data=char_card,
+                    user_nickname=user_nickname,
+                    user_data=u_header,
+                    current_time=get_current_time_str(),
+                    chat_history="\n".join(decision_history_lines),
+                    remark=wakeup_remark or ""
+                )
+            })
             final_prompt = messages
         else:
             messages = stm_list + moments_context + ltm_list
-            final_prompt = llm_client.call_st_preset(messages, current_input, char_card_formatted)
+            scheduled_tasks = None
+            if not is_group:
+                tasks = chat_db.get_wakeup_tasks(target_speaker_uuid)
+                scheduled_tasks = json.dumps(
+                    [
+                        {
+                            "wakeup_time": task["wakeup_time"],
+                            "remark": task["remark"]
+                        }
+                        for task in tasks
+                    ],
+                    ensure_ascii=False,
+                    indent=2
+                )
+            final_prompt = llm_client.call_st_preset(messages,current_input,char_card_formatted,scheduled_tasks)
 
         if is_group:
             final_prompt.append({
@@ -131,8 +150,9 @@ class ContextBuilder:
 class ResponseProcessor:
     @staticmethod
     def clean_reply(full_reply: str) -> str:
-        reply = re.sub(r'<thinking>.*?</thinking>', '', full_reply, flags=re.DOTALL | re.IGNORECASE)
-        return re.sub(r'<think>.*?</think>', '', reply, flags=re.DOTALL | re.IGNORECASE)
+        reply = re.sub(r'<thinking>.*?</thinking>', '',full_reply, flags=re.DOTALL | re.IGNORECASE)
+        reply = re.sub(r'<think>.*?</think>','',reply,flags=re.DOTALL | re.IGNORECASE)
+        return re.sub(r'<schedule_wakeup>.*?</schedule_wakeup>','',reply,flags=re.DOTALL | re.IGNORECASE)
 
     @staticmethod
     def extract_blocks(reply: str) -> List[str]:
@@ -189,11 +209,11 @@ class MoYunxiEngine:
             heap.update_status(0)
             print("收到打断信号，已掐断上一轮流水线")
 
-    async def on_new_message(self, text: str, auto: Optional[bool] = None):
+    async def on_new_message(self, text: str, auto: Optional[bool] = None, wakeup_remark: Optional[str] = None):
         if self.active_task and not self.active_task.done():
             self.interrupt()
 
-        self.active_task = asyncio.create_task(self._pipeline(text, auto))
+        self.active_task = asyncio.create_task(self._pipeline(text, auto, wakeup_remark))
         try:
             await self.active_task
         except asyncio.CancelledError:
@@ -255,7 +275,7 @@ class MoYunxiEngine:
             raise
         return full_reply
 
-    async def _pipeline(self, newest_text: str, auto: Optional[bool] = None):
+    async def _pipeline(self, newest_text: str, auto: Optional[bool] = None, wakeup_remark: Optional[str] = None):
         current_round = 0
         current_input = newest_text
         init_data = chat_db.get_init_data()
@@ -283,16 +303,23 @@ class MoYunxiEngine:
 
             # 2. 组装 Prompt
             final_prompt = self.context_builder.build_prompt(current_input, init_data, speaker_info, auto,
-                                                             self.merged_count)
+                                                             self.merged_count, wakeup_remark)
+
             # 3. LLM 请求
             full_reply = await self._request_reply(final_prompt)
             if not full_reply:
                 break
 
-            # 4. 文本清洗与任务处理
+            # 4. 任务创建，群聊、自动搭话和定时唤醒都不创建任务
+            if not is_group and not auto and not wakeup_remark:
+                wakeup_data = parse_wakeup_sleep_time(full_reply)
+                if wakeup_data:
+                    self.create_wakeup_task(target_speaker_uuid,wakeup_data)
+
+            # 5. 文本清洗与任务处理
             cleaned_reply = self.processor.clean_reply(full_reply)
 
-            # 5. 切分与打字机落库
+            # 6. 切分与打字机落库
             raw_blocks = self.processor.extract_blocks(cleaned_reply)
             last_valid_block = ""
             for block in raw_blocks:
@@ -347,5 +374,35 @@ class MoYunxiEngine:
             except Exception as e:
                 print(f"[主动AI] 轮询周期出错: {e}")
 
+    async def scan_wakeup_tasks(self):
+        """启动时恢复未到期任务，清理过期任务。"""
+        for task in chat_db.get_wakeup_tasks():
+            try:
+                sleep_time = datetime.strptime(task["wakeup_time"], "%Y/%m/%d %H:%M").timestamp() - time.time()
+            except ValueError:
+                sleep_time = 0
+            if sleep_time <= 0:
+                chat_db.delete_wakeup_task(task["owner_uuid"], task["task_id"])
+            else:
+                self._start_wakeup_task(task, sleep_time)
+
+    def create_wakeup_task(self, owner_uuid: str, wakeup_data: dict):
+        """保存并启动单个唤醒任务。"""
+        task = chat_db.save_wakeup_task(owner_uuid, wakeup_data["wakeup_time"], wakeup_data["remark"])
+        if task:
+            self._start_wakeup_task(task, wakeup_data["sleep_time"])
+
+    def _start_wakeup_task(self, task: dict, sleep_time: float):
+        async def wakeup():
+            await asyncio.sleep(sleep_time)
+            chat_db.delete_wakeup_task(task["owner_uuid"], task["task_id"])
+            active_uuid = chat_db.get_init_data().get("contact", {}).get("uuid")
+            if active_uuid != task["owner_uuid"] or (self.active_task and not self.active_task.done()):
+                return
+            await self.on_new_message("", wakeup_remark=task["remark"])
+
+        background_task = asyncio.create_task(wakeup())
+        self._background_tasks.add(background_task)
+        background_task.add_done_callback(self._background_tasks.discard)
 
 engine_instance = MoYunxiEngine()

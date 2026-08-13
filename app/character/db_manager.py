@@ -14,14 +14,14 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class DBManager:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     DATA_DIR = os.path.join(BASE_DIR, "data")  # 指定 data 文件夹
-    CHAR_DIR = os.path.join(DATA_DIR, "character")
+    ACTIVE_DIR = os.path.join(DATA_DIR, "activeDB")
     CONTACTS_DIR = os.path.join(DATA_DIR, "contacts")
 
     os.makedirs(DATA_DIR, exist_ok=True)
     os.makedirs(CONTACTS_DIR, exist_ok=True)
-    os.makedirs(CHAR_DIR, exist_ok=True)
+    os.makedirs(ACTIVE_DIR, exist_ok=True)
 
-    _char_db_path = os.path.join(CHAR_DIR, "char_data.db")
+    _char_db_path = os.path.join(ACTIVE_DIR, "char_data.db")
 
     @staticmethod
     @contextmanager

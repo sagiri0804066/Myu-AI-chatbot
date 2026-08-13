@@ -193,7 +193,7 @@ def save_profile(req: ProfileReq):
 # ==========================================
 @chat_router.post("/send")
 async def send_message(req: MsgReq):
-    msg_id = time.time()
+    msg_id = req.time
     readable_time = time.strftime("%Y/%m/%d %H:%M", time.localtime(req.time / 1000))
 
     final_msg = {

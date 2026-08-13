@@ -80,8 +80,8 @@ class LLMClient:
         print("🔄 正在重新加载 LLM 配置...")
         self._init_client()
 
-    def call_st_preset(self, messages, newest, char_data):
-        final_prompt = ST_preset(messages, newest, self.preset_json, char_data)
+    def call_st_preset(self, messages, newest, char_data, scheduled_tasks):
+        final_prompt = ST_preset(messages, newest, self.preset_json, char_data, scheduled_tasks)
         return final_prompt
 
     async def chat_completion(self, prompt_list, temperature=None):

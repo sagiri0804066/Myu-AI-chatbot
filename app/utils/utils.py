@@ -4,7 +4,6 @@ import random
 import json
 import time
 import datetime
-from datetime import datetime
 from typing import Dict, Any, Optional
 
 
@@ -25,7 +24,7 @@ def is_significant(text: str) -> bool:
 
 
 # 酒馆预设解析
-def ST_preset(messages, newest, default_data, char_data):
+def ST_preset(messages, newest, default_data, char_data, scheduled_tasks=None):
     """根据酒馆 JSON 组装 Prompt"""
 
     def replace_tag_with_list(source_list, tag, replacement_list):
@@ -44,7 +43,7 @@ def ST_preset(messages, newest, default_data, char_data):
     prompts = default_data.get("prompts", [])
 
     # 内置宏标签白名单，这些不需要去 prompts 数组里找
-    builtin_tags = ["chatHistory", "charDescription", "activeTasks"]
+    builtin_tags = ["chatHistory", "charDescription"]
 
     for order_entry in prompt_order:
         if order_entry.get("character_id") == 100001:
@@ -66,10 +65,21 @@ def ST_preset(messages, newest, default_data, char_data):
     prompt_list = replace_tag_with_list(prompt_list, "charDescription", character)
     prompt_list = replace_tag_with_list(prompt_list, "chatHistory", messages)
 
-    # 替换最新的用户输入
+    # 替换列表
     for prompt in prompt_list:
-        if isinstance(prompt, dict) and "{{lastUserMessage}}" in prompt.get("content", ""):
-            prompt["content"] = prompt["content"].replace("{{lastUserMessage}}", newest)
+        if not isinstance(prompt, dict):
+            continue
+        content = prompt.get("content", "")
+        if "{{lastUserMessage}}" in content:
+            prompt["content"] = content.replace(
+                "{{lastUserMessage}}",
+                newest
+            )
+        if "{{scheduled_tasks}}" in prompt.get("content", ""):
+            prompt["content"] = prompt["content"].replace(
+                "{{scheduled_tasks}}",
+                scheduled_tasks or "[]"
+            )
 
     # 合并相邻的同角色（role）消息
     merged_prompt_list = []
@@ -120,40 +130,35 @@ def get_current_time_str() -> str:
     return f"{now.strftime('%Y-%m-%d %H:%M')} {weekday_str}"
 
 # 唤醒解析
-def parse_wakeup_task(full_reply: str) -> Optional[dict]:
+def parse_wakeup_sleep_time(full_reply: str):
     match = re.search(
-        r"<schedule_wakeup>\s*(\{.*?\})\s*</schedule_wakeup>",
+        r'<schedule_wakeup>\s*({.*?})\s*</schedule_wakeup>',
         full_reply,
-        flags=re.DOTALL | re.IGNORECASE,
+        re.DOTALL | re.IGNORECASE
     )
     if not match:
         return None
 
     try:
-        data = json.loads(match.group(1))
-        wakeup_str = str(data.get("wakeup_time", "")).strip()
+        data = json.loads(match.group(1).strip())
+        wakeup_time = str(data.get("wakeup_time", "")).strip()
         remark = str(data.get("remark", "")).strip()
 
-        if not wakeup_str or not remark:
+        if not wakeup_time or not remark:
             return None
 
-        target_dt = datetime.strptime(wakeup_str, "%Y/%m/%d %H:%M")
-        target_ts = target_dt.timestamp()
-        delay_seconds = target_ts - time.time()
+        target_dt = datetime.datetime.strptime(wakeup_time, "%Y/%m/%d %H:%M")
+        sleep_time = target_dt.timestamp() - time.time()
 
-        if delay_seconds <= 0 or delay_seconds > 86400:
-            print(
-                f"[唤醒] 非法时间输入: {wakeup_str} "
-                f"(计算休眠秒数: {delay_seconds:.1f}s，超出 0~86400s 范围)"
-            )
+        if sleep_time <= 0 or sleep_time > 86400:
+            print(f"[唤醒] 非法时间输入: {wakeup_time}")
             return None
 
         return {
-            "wakeup_time": wakeup_str,
-            "wakeup_timestamp": target_ts,
+            "wakeup_time": target_dt.strftime("%Y/%m/%d %H:%M"),
             "remark": remark,
-            "delay_seconds": delay_seconds,
+            "sleep_time": sleep_time
         }
-    except (json.JSONDecodeError, TypeError, ValueError) as exc:
-        print(f"[唤醒] 时间格式解析失败: {exc}")
+    except (json.JSONDecodeError, ValueError, TypeError) as e:
+        print(f"[唤醒] 任务解析失败: {e}")
         return None
