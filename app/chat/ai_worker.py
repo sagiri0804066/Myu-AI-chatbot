@@ -4,6 +4,7 @@ import json
 import re
 import time
 import random
+from os.path import join
 from typing import Optional, List
 
 from .buffer_heap import heap
@@ -15,7 +16,7 @@ from ..config.config_manager import config_manager
 from ..vector.vector_manager import InMemoryVectorDB
 from ..llm.llm_client import llm_client
 from ..character.profile_manager import profile_manager
-from ..utils.utils import should_trigger_proactive
+from ..utils.utils import should_trigger_proactive, get_current_time_str, parse_wakeup_sleep_time
 
 
 # 1. 上下文与 Prompt 组装器
@@ -47,12 +48,28 @@ class ContextBuilder:
         stm_list = self._assemble_stm(stm_msgs, is_group, user_nickname, nickname_map, speaker_nickname)
 
         # 组装基础消息
-        messages = stm_list + moments_context + ltm_list
-        final_prompt = llm_client.call_st_preset(messages, current_input, char_card_formatted)
-
-        # 注入系统追加指令
         if auto:
-            final_prompt.append({"role": "system", "content": config_manager.get("auto_message")})
+            decision_stm = chat_db.get_latest_messages(limit=10)
+            decision_history_lines = [
+                f"[{m['time']}][{user_nickname if m['role'] == 'user' else speaker_nickname}]: {m['text']}"
+                for m in decision_stm
+            ]
+            messages = ltm_list + moments_context
+            auto_message = config_manager.get("auto_message")
+            messages.append({"role": "system",
+                             "content": auto_message.format(
+                                 nickname=speaker_nickname,
+                                 char_data=char_card,
+                                 user_nickname=user_nickname,
+                                 user_data=u_header,
+                                 current_time=get_current_time_str(),
+                                 chat_history=decision_history_lines,
+                             )
+                             })
+            final_prompt = messages
+        else:
+            messages = stm_list + moments_context + ltm_list
+            final_prompt = llm_client.call_st_preset(messages, current_input, char_card_formatted)
 
         if is_group:
             final_prompt.append({

@@ -107,8 +107,6 @@ class InMemoryVectorDB:
         if collection_size == 0:
             return []
 
-        query_vec = None
-
         # 1. 话题连续性判定与 Embedding 向量生成
         if is_curr_sig and is_prev_sig:
             try:
@@ -123,11 +121,10 @@ class InMemoryVectorDB:
 
                 similarity = (np.dot(v1, v2) / (norm_v1 * norm_v2)) if (norm_v1 > 0 and norm_v2 > 0) else 0.0
 
-                if similarity > 0.5:
-                    # 相似度高，说明话题连贯，直接对两个向量求均值作为检索向量
-                    query_vec = ((v1 + v2) / 2.0).tolist()
+                if similarity > 0.65:
+                    query_text = f"{previous_text}，{current_text}"
                 else:
-                    query_vec = v1.tolist()
+                    query_text = current_text
 
             except Exception as e:
                 print(f"Calculate cosine similarity error in search: {e}")
@@ -141,10 +138,7 @@ class InMemoryVectorDB:
 
         # 2. 执行向量检索
         n_res = min(10, collection_size)
-        if query_vec is not None:
-            results = collection.query(query_embeddings=[query_vec], n_results=n_res)
-        else:
-            results = collection.query(query_texts=[query_text], n_results=n_res)
+        results = collection.query(query_texts=[query_text], n_results=n_res)
 
         if not results['ids'] or not results['ids'][0]:
             return []

@@ -17,11 +17,10 @@ from ..vector.vector_manager import ImageVectorDB
 from ..config.config_manager import config_manager
 from ..llm.llm_client import llm_client
 from ..character.profile_manager import profile_manager
-from ..utils.utils import is_asleep
+from ..utils.utils import is_asleep, get_current_time_str
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-PROMPT_CHAR_PROFILER = config_manager.get("char_profiler")
 PROMPT_INTENT_GENERATOR = config_manager.get("intent_generator")
 PROMPT_POST_WRITER = config_manager.get("post_writer")
 PROMPT_UNIFIED_CONVERSATION_WRITER = config_manager.get("unified_conversation_writer")
@@ -52,13 +51,6 @@ class MomentsGeneratorEngine:
                 self.image_tags_map = self._load_tags_file_blocking()
         except Exception as e:
             logging.error(f"发帖引擎初始化失败: {e}", exc_info=True)
-
-    def _get_current_time_str(self) -> str:
-        """获取当前系统时间的格式化字符串"""
-        now = datetime.datetime.now()
-        weekdays = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
-        weekday_str = weekdays[now.weekday()]
-        return f"{now.strftime('%Y-%m-%d %H:%M')} {weekday_str}"
 
     def _load_tags_file_blocking(self) -> dict:
         """同步读取本地 JSON 的阻塞逻辑（在独立线程中安全运行）"""
@@ -291,7 +283,7 @@ class MomentsGeneratorEngine:
             img_tags = matched_asset["tags"]
 
             # 格式输出示例：2026-07-28 18:30 星期二
-            current_time = self._get_current_time_str()
+            current_time = get_current_time_str()
 
             # 撰写朋友圈内容
             writing_prompt = [{
@@ -467,7 +459,7 @@ class MomentsGeneratorEngine:
 
     async def _generate_intent_and_keywords(self, nickname, char_card, context_summary) -> tuple[str, list]:
         """ 提取意图与关键词 """
-        current_time = self._get_current_time_str()
+        current_time = get_current_time_str()
         prompt = [{
             "role": "system",
             "content": PROMPT_INTENT_GENERATOR.format(

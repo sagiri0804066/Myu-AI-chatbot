@@ -1,13 +1,14 @@
 # app/utils/utils.py
 import re
-import datetime
 import random
-from typing import Dict, Any
+import json
+import time
+import datetime
+from datetime import datetime
+from typing import Dict, Any, Optional
 
 
-# ==========================================
 # 意义检测
-# ==========================================
 def is_significant(text: str) -> bool:
     """判断消息是否有价值触发长期记忆检索"""
     if not text:
@@ -23,9 +24,7 @@ def is_significant(text: str) -> bool:
     return True
 
 
-# ==========================================
 # 酒馆预设解析
-# ==========================================
 def ST_preset(messages, newest, default_data, char_data):
     """根据酒馆 JSON 组装 Prompt"""
 
@@ -94,9 +93,7 @@ def ST_preset(messages, newest, default_data, char_data):
     return merged_prompt_list
 
 
-# =====================================================================
 # 独立工具 性格画像
-# =====================================================================
 def is_asleep(current_hour: float, night_owl_coef: float) -> bool:
     sleep_start = (21.0 + 3.0 * night_owl_coef) % 24.0
     sleep_end = (sleep_start + 8.0) % 24.0
@@ -114,3 +111,49 @@ def should_trigger_proactive(profile_data: Dict[str, Any]) -> bool:
     if is_asleep(current_hour, n_owl):
         return False
     return random.random() < (0.05 * (s_act ** 1.5))
+
+# 获取时间
+def get_current_time_str() -> str:
+    now = datetime.datetime.now()
+    weekdays = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
+    weekday_str = weekdays[now.weekday()]
+    return f"{now.strftime('%Y-%m-%d %H:%M')} {weekday_str}"
+
+# 唤醒解析
+def parse_wakeup_task(full_reply: str) -> Optional[dict]:
+    match = re.search(
+        r"<schedule_wakeup>\s*(\{.*?\})\s*</schedule_wakeup>",
+        full_reply,
+        flags=re.DOTALL | re.IGNORECASE,
+    )
+    if not match:
+        return None
+
+    try:
+        data = json.loads(match.group(1))
+        wakeup_str = str(data.get("wakeup_time", "")).strip()
+        remark = str(data.get("remark", "")).strip()
+
+        if not wakeup_str or not remark:
+            return None
+
+        target_dt = datetime.strptime(wakeup_str, "%Y/%m/%d %H:%M")
+        target_ts = target_dt.timestamp()
+        delay_seconds = target_ts - time.time()
+
+        if delay_seconds <= 0 or delay_seconds > 86400:
+            print(
+                f"[唤醒] 非法时间输入: {wakeup_str} "
+                f"(计算休眠秒数: {delay_seconds:.1f}s，超出 0~86400s 范围)"
+            )
+            return None
+
+        return {
+            "wakeup_time": wakeup_str,
+            "wakeup_timestamp": target_ts,
+            "remark": remark,
+            "delay_seconds": delay_seconds,
+        }
+    except (json.JSONDecodeError, TypeError, ValueError) as exc:
+        print(f"[唤醒] 时间格式解析失败: {exc}")
+        return None
