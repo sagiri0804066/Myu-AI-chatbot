@@ -1,9 +1,9 @@
-data/
 data/*
+!data/lib/
 
 脚本/
 *.sh
-*.batgit push -u origin main
+*.bat
 *.ps1
 
 __pycache__/
