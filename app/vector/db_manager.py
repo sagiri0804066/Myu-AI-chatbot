@@ -3,14 +3,11 @@ import os
 import chromadb
 import chromadb.utils.embedding_functions as embedding_functions
 
-# 1. 强制声明离线环境变量
 os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 
-# 2. 直接在定义离线的本地路径
 LOCAL_MODEL_PATH = os.path.abspath("./data/bge-small-zh")
 
-# 3. 声明全局默认 Embedding 模型
 GLOBAL_DEFAULT_EF = embedding_functions.SentenceTransformerEmbeddingFunction(
     model_name=LOCAL_MODEL_PATH
 )
@@ -23,14 +20,13 @@ class ChromaDBManager:
         self.client = chromadb.PersistentClient(path=self.base_path)
 
     def get_chat_collection(self, current_uuid: str):
-        """通过 Collection 命名隔离（chat_前缀）获取对应角色的聊天记录集合"""
+        """获取对应角色的聊天记录集合"""
         if not current_uuid:
             raise ValueError("UUID 不能为空")
 
         safe_uuid = current_uuid.replace('-', '_')
         collection_name = f"chat_{safe_uuid}"
 
-        # 获取或创建集合时，显式绑定 BGE 模型和余弦距离度量空间
         return self.client.get_or_create_collection(
             name=collection_name,
             embedding_function=GLOBAL_DEFAULT_EF,

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Myu4.11</title>
+    <title>Myu4.21</title>
     <link rel="icon" href="icon/chat_favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/chat_style.css">
     <link rel="stylesheet" href="css/chat_search.css">
@@ -359,9 +359,8 @@
         </div>
     </div>
 
-    <script src="js/chat_script.js"></script>
-    <script src="js/chat_search.js"></script>
-    <script src="js/profile_container.js"></script>
+    <script type="module" src="js/chatApp.js"></script>
+
     <script>
         document.getElementById('btn-nav-moments').addEventListener('click', function () {
             const url = window.location.href.replace('/chat', '/moments');

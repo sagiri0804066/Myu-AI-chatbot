@@ -12,26 +12,34 @@
 
 <body>
     <div class="app-container">
-
         <div class="nav-bar">
             <span class="nav-title">朋友圈</span>
-            <span class="post-icon" onclick="openPostModal()"><i class="fa-solid fa-camera"></i></span>
+            <span class="post-icon">
+                <i class="fa-solid fa-camera"></i>
+            </span>
         </div>
 
         <div class="moments-scroll">
-            <div class="header-banner" id="headerBanner" onclick="triggerBgUpload()">
+            <div class="header-banner" id="headerBanner">
                 <div class="bg-tip">更换相册封面</div>
+
                 <input type="file" id="bgFileInput" accept="image/*" style="display: none;">
 
-                <div class="user-profile" onclick="event.stopPropagation()">
-                    <span class="user-name" id="userNickname">User</span>
+                <div class="user-profile">
+                    <span class="user-name" id="userNickname">
+                        User
+                    </span>
+
                     <img class="user-avatar" id="userAvatar" src="" alt="Avatar">
                 </div>
             </div>
 
-            <div class="unread-news-banner" id="unreadNewsBanner" onclick="openNotifModal()">
+            <div class="unread-news-banner" id="unreadNewsBanner">
                 <img class="unread-news-avatar" id="unreadNewsAvatar" src="" alt="最新头像">
-                <span class="unread-news-text" id="unreadNewsText">0 条新消息</span>
+
+                <span class="unread-news-text" id="unreadNewsText">
+                    0 条新消息
+                </span>
             </div>
 
             <div class="moments-list" id="momentsList"></div>
@@ -40,19 +48,21 @@
         <div class="modal-overlay" id="postModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="modal-cancel" onclick="closePostModal()">取消</span>
+                    <span class="modal-cancel">取消</span>
                     <span class="modal-title">发表文字</span>
-                    <button class="modal-submit" onclick="submitPost()">发表</button>
+                    <button class="modal-submit">发表</button>
                 </div>
+
                 <div class="modal-body">
                     <textarea id="postText" placeholder="这一刻的想法..."></textarea>
+
                     <div class="appendix-upload-section">
                         <div class="image-preview-grid" id="postImagePreviews">
-                            <div class="upload-btn-placeholder"
-                                onclick="document.getElementById('postFileInput').click()">
+                            <div class="upload-btn-placeholder">
                                 <span class="plus-icon">+</span>
                             </div>
                         </div>
+
                         <input type="file" id="postFileInput" accept="image/*" multiple style="display: none;">
                     </div>
                 </div>
@@ -62,31 +72,26 @@
         <div class="modal-overlay notif-modal-overlay" id="notifModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="modal-cancel" onclick="closeNotifModal()"><i class="fa-solid fa-chevron-left"></i>
-                        返回</span>
+                    <span class="modal-cancel" id="closeNotifModalButton">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        返回
+                    </span>
+
                     <span class="modal-title">消息</span>
                 </div>
+
                 <div class="notif-list-body" id="notifList"></div>
             </div>
         </div>
 
         <div class="comment-input-bar" id="commentInputBar">
             <input type="text" id="commentInputText" placeholder="评论...">
-            <button id="sendCommentBtn" onclick="submitComment()">发送</button>
-        </div>
 
+            <button id="sendCommentBtn">发送</button>
+        </div>
     </div>
 
-    <script src="js/moments_script.js"></script>
+    <script type="module" src="js/momentsApp.js"></script>
 </body>
-<script>
-    const savedTheme = localStorage.getItem('chat-theme-mode');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    const isDark = savedTheme === 'dark' ||
-        (savedTheme !== 'light' && systemPrefersDark);
-
-    document.body.classList.toggle('dark-mode', isDark);
-</script>
 
 </html>

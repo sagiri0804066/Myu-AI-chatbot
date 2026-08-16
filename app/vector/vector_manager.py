@@ -19,7 +19,7 @@ class InMemoryVectorDB:
         self._existing_ids_cache = {}
 
     def _get_existing_ids(self, current_uuid: str) -> set:
-        """从 Chroma 缓存中获取已存在的所有总结首条消息 ID (仅获取 ID，不加载全量文档)"""
+        """从 Chroma 缓存中获取已存在的所有总结首条消息 ID"""
         if current_uuid not in self._existing_ids_cache:
             collection = chroma_db_mgr.get_chat_collection(current_uuid)
             try:
@@ -137,6 +137,7 @@ class InMemoryVectorDB:
             return []
 
         # 2. 执行向量检索
+        query_text = "为这个用户查询生成检索表示: " + query_text
         n_res = min(10, collection_size)
         results = collection.query(query_texts=[query_text], n_results=n_res)
 
@@ -213,7 +214,7 @@ class ImageVectorDB:
                 tag_clean = tag.strip()
                 if tag_clean:
                     documents.append(tag_clean)
-                    metadatas.append({"filename": filename})  # 直接存入 metadata
+                    metadatas.append({"filename": filename})
                     ids.append(str(global_idx))
                     global_idx += 1
 
@@ -230,7 +231,7 @@ class ImageVectorDB:
             except Exception as e:
                 print(f"写入公共素材库哈希失败: {e}")
 
-    def search_image(self, query_text: str, threshold: float = 0.4) -> list:
+    def search_image(self, query_text: str, threshold: float = 0.65) -> list:
         """语义检索全局公共素材库"""
         if not query_text.strip():
             return []

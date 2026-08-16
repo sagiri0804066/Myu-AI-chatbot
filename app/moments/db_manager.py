@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 class DBManager:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    DATA_DIR = os.path.join(BASE_DIR, "data")  # 指定 data 文件夹
+    DATA_DIR = os.path.join(BASE_DIR, "data")
     ACTIVE_DIR = os.path.join(DATA_DIR, "activeDB")
     MOMENTS_DIR = os.path.join(DATA_DIR, "moments")
     LIB_DIR = os.path.join(DATA_DIR, "lib")

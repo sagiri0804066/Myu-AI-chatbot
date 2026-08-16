@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 class DBManager:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    DATA_DIR = os.path.join(BASE_DIR, "data")  # 指定 data 文件夹
+    DATA_DIR = os.path.join(BASE_DIR, "data")
     CONTACTS_DIR = os.path.join(DATA_DIR, "contacts")
     ACTIVE_DIR = os.path.join(DATA_DIR, "activeDB")
     PROFILES_DIR = os.path.join(DATA_DIR, "profiles")
@@ -1051,8 +1051,3 @@ class DBManager:
 
 chat_db = DBManager()
 DBManager._init_tables()
-
-
-# 单元测试预留
-if __name__ == "__main__":
-    pass
