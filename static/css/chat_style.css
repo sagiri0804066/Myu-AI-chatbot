@@ -34,7 +34,7 @@
         box-shadow 0.2s ease;
 }
 
-/* 深色主题 */
+
 body.dark-mode,
 body.dark-theme,
 body.dark,
@@ -334,7 +334,7 @@ header {
     display: block;
 }
 
-/* 气泡与搜索高亮动画 */
+
 @keyframes flash-highlight {
     0% {
         background-color: #fff59d;
@@ -420,7 +420,7 @@ header {
         height: 200px;
     }
 
-    /* 核心：确保图标横向排列 */
+
     .desktop-top-bar {
         display: flex !important;
         flex-direction: row !important;
@@ -700,7 +700,7 @@ header {
     cursor: pointer;
 }
 
-/* 手机加号菜单样式 */
+
 .plus-menu {
     position: absolute;
     bottom: 65px;
@@ -832,7 +832,7 @@ header {
     font-family: inherit;
 }
 
-/* 侧边栏设置定位 */
+
 @media (min-width: 768px) {
     .main-nav {
         display: flex;
@@ -860,9 +860,9 @@ header {
     }
 }
 
-/* 微信红点/通知气泡样式*/
 
-/* 1. 图标或头像的外层定位容器 */
+
+
 .badge-wrapper {
     position: relative;
     display: inline-flex;
@@ -870,7 +870,7 @@ header {
     justify-content: center;
 }
 
-/* 通讯录模态框内部列表头像定位容器 */
+
 .contact-avatar-container {
     position: relative;
     flex-shrink: 0;
@@ -881,7 +881,7 @@ header {
     margin-right: 0 !important;
 }
 
-/* 2. 通用绝对定位红点基类 */
+
 .badge {
     display: none;
     position: absolute;
@@ -895,7 +895,7 @@ header {
     box-shadow: 0 0 0 1.5px #ffffff;
 }
 
-/* 3. 带未读数字的气泡红点 */
+
 .badge-count {
     top: -5px;
     right: -8px;
@@ -908,7 +908,7 @@ header {
     box-sizing: border-box;
 }
 
-/* 4. 单纯无数字的小圆点 */
+
 .badge-dot {
     top: -1px;
     right: -1px;
@@ -917,7 +917,7 @@ header {
     border-radius: 50%;
 }
 
-/* 5. 控制显隐的激活类 */
+
 .badge-count.show {
     display: flex;
     align-items: center;
@@ -928,16 +928,16 @@ header {
     display: block;
 }
 
-/*@提及功能相关样式*/
 
-/* 支持 contenteditable 的换行、滚动与占位符 */
+
+
 #msg-input {
     white-space: pre-wrap;
     word-break: break-all;
     overflow-y: auto;
 }
 
-/* 占位符效果支持 */
+
 #msg-input:empty::before {
     content: attr(placeholder);
     color: #999;
@@ -945,14 +945,14 @@ header {
     display: block;
 }
 
-/* 在手机端时，赋予 div 输入框白色底色 */
+
 @media (max-width: 767px) {
     #msg-input {
         background: #ffffff;
     }
 }
 
-/* 输入框内 @ 标签的样式 */
+
 .mention-tag {
     color: #039be5;
     background: #e1f5fe;
@@ -961,19 +961,19 @@ header {
     margin: 0 2px;
     display: inline-block;
     user-select: none;
-    /* 避免文字被光标拆分选中 */
+
     font-weight: normal;
 }
 
-/* @ 提及弹窗容器 */
+
 .mention-popover {
     position: absolute;
     bottom: 100%;
-    /* 弹出在输入框上方 */
+
     left: 10px;
     width: 220px;
     max-height: 160px;
-    /* 限制高度，使其符合“不是很高的弹窗”需求 */
+
     overflow-y: auto;
     background: #ffffff;
     border: 1px solid var(--border-color);
@@ -983,7 +983,7 @@ header {
     z-index: 2000;
 }
 
-/* 弹窗中联系人单项 */
+
 .mention-item {
     display: flex;
     align-items: center;
@@ -1001,7 +1001,7 @@ header {
     background: #f5f5f5;
 }
 
-/* 弹窗内头像与名称 */
+
 .mention-avatar {
     width: 24px;
     height: 24px;
@@ -1037,7 +1037,7 @@ body {
     color: var(--text-main);
 }
 
-/* 页面主要区域 */
+
 .app-wrapper,
 #chat-container {
     background: var(--bg-main);
@@ -1061,7 +1061,7 @@ header {
     color: var(--icon-color);
 }
 
-/* 网络错误提示 */
+
 #net-err-out {
     background: #fff0f0 !important;
     color: #fa5151 !important;
@@ -1078,13 +1078,13 @@ html[data-theme="dark"] #net-err-out {
     border-bottom-color: #643535 !important;
 }
 
-/* 时间标签 */
+
 .time-tag span {
     background: rgba(128, 128, 128, 0.18);
     color: var(--text-grey);
 }
 
-/* 消息文本 */
+
 .bubble {
     color: var(--text-main);
 }
@@ -1107,7 +1107,7 @@ html[data-theme="dark"] #net-err-out {
     border-color: transparent transparent transparent var(--bubble-me);
 }
 
-/* 输入区域 */
+
 .input-area {
     background: var(--bg-surface);
     color: var(--text-main);
@@ -1163,7 +1163,7 @@ html[data-theme="dark"] #net-err-out {
     }
 }
 
-/* 发送按钮 */
+
 .send-btn,
 .save-btn {
     background: var(--wechat-green);
@@ -1175,7 +1175,7 @@ html[data-theme="dark"] #net-err-out {
     filter: brightness(1.08);
 }
 
-/* 编辑、删除按钮 */
+
 .edit-confirm-bar {
     background: var(--bg-surface);
 }
@@ -1189,7 +1189,7 @@ html[data-theme="dark"] #net-err-out {
     color: #ffffff;
 }
 
-/* 手机加号菜单 */
+
 .plus-menu {
     background: var(--bg-card);
     box-shadow: 0 2px 12px var(--shadow-color);
@@ -1205,7 +1205,7 @@ html[data-theme="dark"] #net-err-out {
     background: var(--bg-hover);
 }
 
-/* 弹窗 */
+
 .modal-mask {
     background: var(--modal-mask);
 }

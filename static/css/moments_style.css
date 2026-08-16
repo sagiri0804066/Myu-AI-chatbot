@@ -189,7 +189,7 @@ body {
     border-radius: 2px;
 }
 
-/* 操作底部栏 */
+
 .moment-footer {
     display: flex;
     justify-content: space-between;
@@ -198,7 +198,7 @@ body {
     position: relative;
 }
 
-/* 左侧时间与垃圾桶容器 */
+
 .footer-left {
     display: flex;
     align-items: center;
@@ -210,7 +210,7 @@ body {
     font-size: 12px;
 }
 
-/* 删除按钮样式 */
+
 .delete-btn {
     cursor: pointer;
     display: inline-flex;
@@ -385,7 +385,7 @@ body {
 
 .image-preview-grid {
     display: grid;
-    /* 使用自动填充，并将每格宽度限制为 80px（即原本加号按钮的大小） */
+
     grid-template-columns: repeat(auto-fill, 80px);
     gap: 8px;
 }
@@ -401,7 +401,7 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
-    /* 统一圆角弧度为 8px */
+
 }
 
 .remove-img-btn {
@@ -421,14 +421,14 @@ body {
     z-index: 10;
 }
 
-/* 灰色、大圆角、黑色细加号按钮 */
+
 .upload-btn-placeholder {
     width: 80px;
     height: 80px;
     background-color: #b1b1b1;
-    /* 灰色 */
+
     border-radius: 8px;
-    /* 减小圆角，使之与内容图片弧度一致 */
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -440,13 +440,13 @@ body {
     font-size: 32px;
     font-weight: 300;
     color: #191919;
-    /* 黑色细加号 */
+
     display: flex;
     align-items: center;
     justify-content: center;
     line-height: 1;
     margin-top: -2px;
-    /* 消除字体基线引起的微小垂直偏差，确保绝对居中 */
+
 }
 
 .comment-input-bar {
@@ -488,7 +488,7 @@ body {
     font-weight: bold;
 }
 
-/* “暂无更多”分割线 */
+
 .no-more-divider {
     display: flex;
     align-items: center;
@@ -499,7 +499,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", sans-serif;
 }
 
-/* 两侧的灰色细横线 */
+
 .no-more-divider::before,
 .no-more-divider::after {
     content: "";
@@ -510,7 +510,7 @@ body {
     max-width: 60px;
 }
 
-/* 朋友圈新消息提示横幅 */
+
 .unread-news-banner {
     display: none;
     align-items: center;
@@ -553,12 +553,12 @@ body {
     white-space: nowrap;
 }
 
-/* 消息通知弹窗 */
+
 .notif-modal-overlay {
     display: none;
 }
 
-/* 弹窗顶栏 */
+
 .notif-modal-overlay .modal-header {
     position: relative;
     display: flex;
@@ -571,7 +571,7 @@ body {
     flex-shrink: 0;
 }
 
-/* 弹窗标题居中 */
+
 .notif-modal-overlay .modal-title {
     position: absolute;
     left: 50%;
@@ -582,14 +582,14 @@ body {
     pointer-events: none;
 }
 
-/* 消息列表容器 */
+
 .notif-list-body {
     flex: 1;
     overflow-y: auto;
     background-color: #ffffff;
 }
 
-/* 单条消息卡片 */
+
 .notif-item {
     display: flex;
     align-items: center;
@@ -603,7 +603,7 @@ body {
     background-color: #f5f5f5;
 }
 
-/* 消息发送者头像 */
+
 .notif-avatar {
     width: 42px;
     height: 42px;
@@ -614,7 +614,7 @@ body {
     background-color: #eee;
 }
 
-/* 消息文本区域 */
+
 .notif-content {
     flex: 1;
     margin-right: 12px;
@@ -637,14 +637,14 @@ body {
     white-space: nowrap;
 }
 
-/* 被回复人名字高亮 */
+
 .notif-text .reply-target-name {
     color: var(--wechat-blue, #576B95);
     font-weight: 500;
     margin: 0 2px;
 }
 
-/* 点赞图标 */
+
 .praise-svg {
     width: 18px;
     height: 18px;
@@ -662,7 +662,7 @@ body {
     margin-top: 4px;
 }
 
-/* 动态图文预览容器 */
+
 .notif-target-preview {
     width: 48px;
     height: 48px;
@@ -681,7 +681,7 @@ body {
     object-fit: cover;
 }
 
-/* 无图动态纯文本预览框 */
+
 .notif-target-preview.text-only-preview {
     font-size: 11px;
     color: #7f7f7f;
@@ -743,7 +743,7 @@ body.dark-mode {
     --scrollbar-thumb-hover: #5a5a5a;
 }
 
-/* 页面整体 */
+
 html,
 body {
     background-color: var(--wechat-bg);
@@ -755,7 +755,7 @@ body {
     box-shadow: 0 0 10px var(--moments-shadow);
 }
 
-/* 顶部导航 */
+
 .nav-bar {
     background-color: var(--wechat-light-grey);
     border-bottom-color: var(--moments-border);
@@ -766,7 +766,7 @@ body {
     color: var(--moments-text);
 }
 
-/* 朋友圈内容 */
+
 .moments-scroll {
     background-color: var(--moments-surface);
 }
@@ -786,14 +786,14 @@ body {
     color: var(--moments-secondary);
 }
 
-/* 头像占位背景 */
+
 .user-avatar,
 .sender-avatar,
 .notif-avatar {
     background-color: var(--wechat-light-grey);
 }
 
-/* 互动区域 */
+
 .interactions-box {
     background-color: var(--wechat-comment-bg);
 }
@@ -818,7 +818,7 @@ body {
     color: var(--wechat-blue);
 }
 
-/* 操作按钮 */
+
 .delete-btn:hover,
 .action-menu-btn:hover {
     background-color: var(--moments-hover);
@@ -829,13 +829,13 @@ body {
     color: var(--wechat-blue);
 }
 
-/* 操作菜单 */
+
 .action-popup {
     background-color: #414141;
     color: #ffffff;
 }
 
-/* 发布动态弹窗 */
+
 .modal-overlay {
     background-color: var(--moments-surface);
 }
@@ -860,7 +860,7 @@ body {
     color: var(--moments-secondary);
 }
 
-/* 上传图片按钮 */
+
 .upload-btn-placeholder {
     background-color: #858585;
 }
@@ -869,7 +869,7 @@ body {
     color: #191919;
 }
 
-/* 评论输入框 */
+
 .comment-input-bar {
     background-color: var(--wechat-light-grey);
     border-top-color: var(--moments-border);
@@ -881,13 +881,13 @@ body {
     border-color: var(--moments-border);
 }
 
-/* 暂无更多 */
+
 .no-more-divider::before,
 .no-more-divider::after {
     background-color: var(--moments-divider);
 }
 
-/* 消息通知弹窗 */
+
 .notif-modal-overlay .modal-header {
     background-color: var(--wechat-light-grey);
     border-bottom-color: var(--moments-divider);
@@ -922,7 +922,7 @@ body {
    滚动条主题适配
    ========================= */
 
-/* Chrome、Edge、Safari */
+
 html::-webkit-scrollbar,
 body::-webkit-scrollbar,
 .moments-scroll::-webkit-scrollbar,
@@ -958,7 +958,7 @@ body::-webkit-scrollbar-thumb:hover,
     background-color: var(--scrollbar-thumb-hover);
 }
 
-/* Firefox */
+
 html,
 body,
 .moments-scroll,

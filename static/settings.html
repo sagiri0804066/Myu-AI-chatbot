@@ -13,15 +13,13 @@
 
   <canvas id="stars"></canvas>
 
-  <!-- 外部面板 -->
   <div class="panel" id="settingsPanel">
     <div class="panel-inner">
 
-      <!-- 左侧/下方：高级设置面板 -->
       <div class="advanced-section" id="advancedSection">
         <div class="title">高级设置</div>
         <div class="advanced-scroll-wrapper">
-          <!-- 最大回复长度 -->
+
           <div class="input-group">
             <div class="field-label">
               <span>最大回复长度 (Max Tokens)</span>
@@ -29,7 +27,6 @@
             <input type="number" id="maxTokens" placeholder="1024" min="1" />
           </div>
 
-          <!-- 温度 -->
           <div class="input-group">
             <div class="field-label">
               <span>温度 (Temperature)</span>
@@ -38,7 +35,6 @@
             <input type="range" id="temperature" min="0" max="2" step="0.1" value="1.0" />
           </div>
 
-          <!-- Top P -->
           <div class="input-group">
             <div class="field-label">
               <span>核采样 (Top P)</span>
@@ -47,7 +43,6 @@
             <input type="range" id="topP" min="0" max="1" step="0.05" value="1.0" />
           </div>
 
-          <!-- 频率惩罚 -->
           <div class="input-group">
             <div class="field-label">
               <span>频率惩罚 (Frequency Penalty)</span>
@@ -56,7 +51,6 @@
             <input type="range" id="frequencyPenalty" min="-2" max="2" step="0.1" value="0.0" />
           </div>
 
-          <!-- 存在惩罚 -->
           <div class="input-group">
             <div class="field-label">
               <span>存在惩罚 (Presence Penalty)</span>
@@ -65,7 +59,6 @@
             <input type="range" id="presencePenalty" min="-2" max="2" step="0.1" value="0.0" />
           </div>
 
-          <!-- 流式传输 -->
           <div class="input-group">
             <div class="field-label">流式传输 (Stream)</div>
             <select id="streamSelect">
@@ -74,7 +67,6 @@
             </select>
           </div>
 
-          <!-- 启用 VLM -->
           <div class="input-group">
             <div class="field-label">启用多模态 (VLM)</div>
             <select id="vlmEnabled">
@@ -83,7 +75,6 @@
             </select>
           </div>
 
-          <!-- VLM 专属配置区域 (默认隐藏) -->
           <div id="vlmConfigGroup"
             style="display: none; margin-top: 10px; padding-left: 10px; border-left: 2px solid #444;">
             <div class="input-group">
@@ -100,7 +91,6 @@
 
       </div>
 
-      <!-- 右侧/上方：主设置面板 -->
       <div class="main-section">
         <div class="title">设置</div>
 
@@ -149,7 +139,6 @@
           </div>
         </div>
 
-        <!-- 底部并排的按钮组 -->
         <div class="button-group">
           <button class="advanced-btn" id="advancedBtn">高级设置</button>
           <button class="save-btn" id="saveBtn">保存</button>

@@ -1,4 +1,3 @@
-/* 搜索遮罩与弹窗 */
 #search-history-mask {
     position: fixed;
     inset: 0;
@@ -24,7 +23,7 @@
     box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-/* 顶部搜索框区域 */
+
 .history-search-wrapper {
     position: relative;
     margin-bottom: 15px;
@@ -64,7 +63,7 @@
     user-select: none;
 }
 
-/* 日历 */
+
 .calendar-container {
     flex: 1;
     display: flex;

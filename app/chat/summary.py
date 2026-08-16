@@ -23,7 +23,6 @@ class SummaryPipeline:
         """
         长期记忆总结主循环
         """
-        # 如果锁已经被占用，说明上一个后台总结任务还在运行，跳过本次触发
         if self._lock.locked():
             return
 

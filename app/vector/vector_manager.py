@@ -8,7 +8,6 @@ import numpy as np
 from .db_manager import chroma_db_mgr
 from ..utils.utils import is_significant
 
-# 预编译正则，避免重复编译
 TAG_SPLIT_REGEX = re.compile(r'[，,\s]+')
 
 

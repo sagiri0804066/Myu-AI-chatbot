@@ -1,4 +1,3 @@
-/* --- 个人信息视图核心样式 --- */
 .profile-mask {
     position: fixed;
     top: 0;
@@ -13,7 +12,7 @@
     overflow: hidden;
 }
 
-/* ================= 移动端样式 (屏幕宽度小于 768px) ================= */
+
 @media (max-width: 767px) {
     .profile-mask {
         background: #f2f2f2;
@@ -118,7 +117,7 @@
         background: #ffffff;
     }
 
-    /* 移动端菜单单行：改用左对齐 */
+
     .profile-menu-item {
         display: flex;
         justify-content: flex-start;
@@ -137,13 +136,13 @@
         flex-shrink: 0;
     }
 
-    /* 移动端右侧内容区：撑满剩余空间 */
+
     .menu-right {
         display: flex;
         align-items: center;
         flex: 1;
         margin-left: 20px;
-        /* 文字与预览图间距 */
+
     }
 
     .moments-preview-imgs {
@@ -158,7 +157,7 @@
         border-radius: 4px;
     }
 
-    /* 移动端右箭头：强行推至最右侧 */
+
     .arrow-icon {
         margin-left: auto;
         fill: #b2b2b2;
@@ -190,7 +189,7 @@
     }
 }
 
-/* ================= 电脑端样式 (屏幕宽度不小于 768px) ================= */
+
 @media (min-width: 768px) {
     .profile-mask {
         background: transparent;
@@ -275,7 +274,7 @@
         margin: 10px 0;
     }
 
-    /* 电脑端菜单单行：改用左对齐 */
+
     .profile-menu-item {
         display: flex;
         justify-content: flex-start;
@@ -290,21 +289,21 @@
         flex-shrink: 0;
     }
 
-    /* 电脑端右侧内容区：撑满剩余空间 */
+
     .menu-right {
         display: flex;
         align-items: center;
         flex: 1;
         margin-left: 16px;
-        /* 文字与右侧内容间距 */
+
     }
 
-    /* 电脑端默认隐藏预览图 */
+
     .moments-preview-imgs {
         display: none;
     }
 
-    /* 电脑端右箭头：在没有图片预览时，依靠 margin-left: auto 依然能强行推至最右侧 */
+
     .arrow-icon {
         margin-left: auto;
         fill: #b2b2b2;
@@ -336,7 +335,7 @@
     }
 }
 
-/* 个人资料主题颜色 */
+
 .profile-mask {
     color: var(--text-main);
 }
