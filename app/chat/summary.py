@@ -132,7 +132,7 @@ class SummaryPipeline:
                     # 判定当前积压消息总量和时间跨度是否达到总结阈值
                     merged_count = len(merged_list)
                     time_span_hours = (raw_list[-1]["id"] - raw_list[0]["id"]) / (
-                            1000 * 3600.0) if merged_count >= 2 else 0.0
+                            1000 * 3600.0) if merged_count >= 1 else 0.0
 
                     if merged_count < 30 and time_span_hours < 6.0:
                         logger.info(
